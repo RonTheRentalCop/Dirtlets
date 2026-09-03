@@ -1,0 +1,7 @@
+Copyright 2026 George Koniaris. All rights reserved. 
+
+This software and its associated documentation files are the sole property of the copyright holder. 
+
+No permission is granted to copy, modify, merge, publish, distribute, sublicense, or sell copies of this software, except as explicitly permitted by the GitHub Terms of Service for public repositories (such as the right to view and fork the repository within GitHub solely for personal use). 
+
+Any other use, reproduction, or distribution of this work without the express written permission of the copyright holder is strictly prohibited.
