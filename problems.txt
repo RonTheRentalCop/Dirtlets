@@ -1,0 +1,37 @@
+Main question: How can we give every robot a 3D sensing capability without blowing the budget?
+
+    1) I could try the normal camera with the sliced video to create that map but the computing is heavy and very difficult
+    2) I could just buy the Depth Sensors becuase lidar is far too expensive for what this project needs. 
+    3) 3d maps are not neccicarrily needed but from a computer anylisis of the goal of finding the landing area/ habitable space for the space ppl its way worse without a map like that
+    4) I could outfit 2 drones with the cameras to make it cheaper. 
+    5) remove cameras all together to just focus on swarm robotics but what use does the swarm have if it cannot do that?
+
+How do I save more money?
+    1) Buy RC car bases off fb Marketplace 
+        It does not matter if the car is slow or whatever because the drones will move very slowly.
+    2) What parts will work on earth in space and in the lesser gravity? How can I choose parts that will not cause issues but also still be cheap?
+
+Revised list:
+    Component	Cost
+    Used RC car platform	                            $20–$50
+    Raspberry Pi 4 (2GB)	                            $55
+    Depth camera (Orbbec Astra Mini, used RealSense D435, or similar)	$100–$180
+    Pan‑tilt servo (optional, for wider coverage)	    $10–$20
+    Motor driver + 5V regulator	                        $15–$25
+    3S LiPo battery	                                    $20–$30
+    Misc (wiring, printed mounts)	                    $10
+    Total per robot	$230–$370  
+
+Component                             Qty   Unit Cost   Subtotal
+------------------------------------  ----  ----------  ----------
+Used 1/10 RC car (brushed)            1     $30.00      $30.00
+RPLIDAR A1                            1     $100.00     $100.00
+Tilt servo (metal gear, high torque)  1     $10.00      $10.00
+ESP32 Dev Board                       1     $10.00      $10.00
+Motor driver (TB6612FNG or BTS7960)   1     $10.00      $10.00
+UBEC 5V/3A regulator                  1     $10.00      $10.00
+MPU9250 IMU                           1     $6.00       $6.00
+Wheel encoders (hall sensor + magnets) 2     $5.00       $10.00
+3S LiPo battery (2200mAh)             1     $25.00      $25.00
+Misc (wires, printed mounts, fasteners) -     $15.00      $15.00
+                                     Total:             $226.00
