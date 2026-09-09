@@ -1,0 +1,26 @@
+Project Progress and Timeline for Success
+
+- To Do - 
+[x] Created Github Repository
+[x] Log Book Made
+[x] Obtain a 3d Printer
+[] Finish Parts List
+[] Verify Parts Compatibility
+[] 
+
+Thursday September 3rd
+- Set up the project foundation for Dirtlets.
+- Created the GitHub repository and connected the project to a version-controlled workspace.
+- Created the Log Book and started documenting the project timeline and milestones.
+- Reviewed the project concept and confirmed the core goal: a swarm of small robots for lunar/planetary exploration and mapping.
+- Added the initial project checklist in the README to track major work items.
+
+Friday September 4th
+- Today’s goals:
+  - Finish the parts list for the first prototype.
+  - Verify compatibility between the selected 3D printer, motors, electronics, and structural components.
+  - Decide which parts are required now versus optional for later iterations.
+  - Start listing exact parts, sources, and estimated costs.
+  - Review whether the current design direction matches the swarm proof-of-concept goal.
+
+Over the Weekend I finished up the parts list and fixed the 3d printer. Should order items soon. Finish paperwork to make absolutly sure I want to do it this way.
