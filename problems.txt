@@ -64,3 +64,17 @@ Things to Print:
 
 Total:
     $279.98
+
+
+
+    Esp32 Vision records and streams video and data back to main computer
+    |
+    Main computer gets the video stream via hotspot network
+    |
+    Main computer needs to have Object_Detection_Test.py running on each instence of video stream
+    |
+    The program will determine if the robot should keep going turn or stop due to new objects.
+    |
+    Data sent back to the seperate ESP 32 board that controls motor and steering functions to make the changes
+    |
+    This needs to circle all the way back.

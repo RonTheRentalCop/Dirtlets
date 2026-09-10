@@ -24,3 +24,19 @@ Friday September 4th
   - Review whether the current design direction matches the swarm proof-of-concept goal.
 
 Over the Weekend I finished up the parts list and fixed the 3d printer. Should order items soon. Finish paperwork to make absolutly sure I want to do it this way.
+
+Thursday September 10th
+- Decided that the robots will stream camera video and sensor data to a central computer instead of performing the main computations onboard each robot.
+- Reason for this change: Raspberry Pi computers and similar onboard computing hardware are too expensive to purchase for every robot. The existing ESP32 boards can handle camera streaming, motor control, and basic sensor communication at a lower cost.
+- The central computer will perform the expensive operations, including object detection, distance processing, localization, map building, path planning, and combining data from multiple robots in real time.
+- The robots will receive movement commands from the central computer. Each robot should still have a local emergency-stop behavior if the connection is lost, so a communication failure does not leave the motors running.
+- The first mapping goal is a 2D or 2.5D map using the RPLIDAR, camera video, wheel encoders, and the MPU-650. A full 3D map can be investigated later if the project requires additional depth hardware or a lidar scanning mechanism.
+- Possible future deployment concept: a landing craft could act as the central relay and computing station. It could receive signals and sensor data from the deployed robots, stream or compile their data in real time, and send the combined results back to the main base or operator.
+- This landing-craft concept is currently a possible future architecture, not a required part of the first prototype.
+
+- Created `Build-Camp.md` with a simple flowchart showing the planned prototype build order, from confirming parts through the first mapping trial and design improvements.
+- Improved `Build-Camp.md` by separating the flowchart into build, electronics, and testing phases, adding color-coded styling, and making the repair loop easier to follow. The underlying build plan was not changed.
+- Added a robot control-loop flowchart to `Build-Camp.md` showing the ESP32-CAM stream, Wi-Fi connection, central computer processing, movement decision, motor ESP32 commands, and feedback back to the camera.
+- Refined both flowcharts with a professional technical-document style: graphite, steel blue, muted teal, and limited amber for decisions. Removed the pastel and purple styling to improve readability and visual hierarchy.
+- Enlarged the Robot Control Loop diagram with larger text, more spacing, and added diagram padding so the operating cycle is easier to inspect.
+- Object recognition will use an established image-recognition library running on the central computer. The project will not build an object-recognition system from scratch; its code will connect the library to the incoming ESP32-CAM video stream and use the detected objects to make movement decisions.
