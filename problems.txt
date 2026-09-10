@@ -36,6 +36,8 @@ Wheel encoders (hall sensor + magnets) 2     $5.00      $10.00
 Misc (wires, printed mounts, fasteners) -     $15.00    $15.00
                                      Total:             $226.00
 
+
+Final List Note: Ai lists found to be not very helpful.
 Things I have:
     Saughtering Irons
     Wire Cutters and Slicers
