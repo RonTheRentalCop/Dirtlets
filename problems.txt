@@ -31,7 +31,34 @@ ESP32 Dev Board                       1     $10.00      $10.00
 Motor driver (TB6612FNG or BTS7960)   1     $10.00      $10.00
 UBEC 5V/3A regulator                  1     $10.00      $10.00
 MPU9250 IMU                           1     $6.00       $6.00
-Wheel encoders (hall sensor + magnets) 2     $5.00       $10.00
+Wheel encoders (hall sensor + magnets) 2     $5.00      $10.00
 3S LiPo battery (2200mAh)             1     $25.00      $25.00
-Misc (wires, printed mounts, fasteners) -     $15.00      $15.00
+Misc (wires, printed mounts, fasteners) -     $15.00    $15.00
                                      Total:             $226.00
+
+Things I have:
+    Saughtering Irons
+    Wire Cutters and Slicers
+    Large Zip Ties
+
+Things That need to be Ordered:
+    Wires with Adapters https://a.co/d/04Bd3yOL $6.98
+    Wire Spools https://a.co/d/0bjYeYc1 $10.29
+    Lead-Free Solder Wire https://a.co/d/04RMEDBa $8.99
+    Multi Pack of Zip Ties https://a.co/d/08kB9KoR $5.99
+    RPLIDAR C1 https://a.co/d/0dn7nmVG $71.80
+    MPU 650 https://a.co/d/05LwdaPB $11.79
+    ESP 32E 2x https://a.co/d/0b5Nff1J $22
+    RC bEC UBEC 5V 3A step https://a.co/d/0eoBiZML $12.99
+    Lipo Battery 2200mAH https://a.co/d/007Q2s4G $34.19
+    Charger https://a.co/d/06odatBI $22.99
+    Drive Control Boards https://a.co/d/0gmHRI0H $9.99
+    Connectors for battery to power https://a.co/d/0bAEaBln $7.99
+    ESP 32 Camera https://a.co/d/082xh7KM $23.99
+
+Things to Print:
+    Tread Chassis https://www.nexprint.com/en/models/C7497520?printConfigId=C0911476 Free
+    JGY 370 12v 10rpm DC worm motors 2x https://a.co/d/0fT8Hvx9 ~30
+
+Total:
+    $279.98
