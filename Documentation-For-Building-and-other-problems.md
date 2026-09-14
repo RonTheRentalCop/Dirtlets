@@ -1,47 +1,31 @@
-# Dirtlets Build Camp
+# Dirtlets Build Documentation
 
-## What could these robots possibly look like?
+## What does the working Architecture look like behind the bot?
 
 | Option 1 | Option 2 | Option 3 |
 |:---:|:---:|:---:|
-| ![Option 1](/Users/georgekoniaris/Dirtlets/System-Overview.png) | ![Option 2](https://example.com) | ![Option 3](https://example.com) |
+| ![Option 1](/Users/georgekoniaris/Dirtlets/System-Overview.png) | ![Option 2](https.example.com) | ![Option 3](https://example.com) |
 
 
-## What ways can we go about building these robots?
 
-Possible Direction:
+## How can we build these robots?
 
-```mermaid
-%%{init: {"flowchart": {"nodeSpacing": 70, "rankSpacing": 90, "diagramPadding": 20}, "themeVariables": {"fontSize": "18px"}}}%%
-flowchart LR
-    A[Tracked rover swarm] --> B[ESP32-CAM, RPLIDAR C1, and MPU-650]
-    B --> C[Central computer receives video and sensor data]
-    C --> D[Build shared map and analyze terrain]
-    D --> E[Calculate each rover's Health Score]
-    E --> F{Best rover for local leadership?}
-    F -->|Yes| G[Leader relays group data]
-    F -->|No| H[Another rover leads]
-    G --> I[Central computer identifies a promising area]
-    H --> I
-    I --> J[Send safe navigation commands]
-    J --> K[Swarm travels and spreads out]
-    K --> L[Investigate the area and update the map]
-    L --> B
+1. Confirm you have all required materials:  
+3d Printer at least 200x200 I used the Creality Ender3-Pro. 
+RPLidar A1/C1. 
+MPU 650. 
+ESP 32E. 
+RC bEC UBEC 5V 3A Step. 
+Lipo Battery 2200AH *Could go Duel. 
+Lipo Specific Charger *Make sure it is for LIPO battery explosions do happen. Drive Control Boards or ESP 32Es. 
+Connectors for Battery to Power. 
+ESP 32 RGB Camera
+Wire. 
+Zip Ties. 
+Solder Wire + Mat + Solder Stick
+JGY 370 12v 10rpm DC worm moters 2x
 
-    classDef system fill:#ffffff,stroke:#384a52,stroke-width:1.5px,color:#1f2d33;
-    classDef sensing fill:#ffffff,stroke:#176b78,stroke-width:1.5px,color:#173f46;
-    classDef analysis fill:#ffffff,stroke:#52636b,stroke-width:1.5px,color:#263238;
-    classDef decision fill:#ffffff,stroke:#9a6a18,stroke-width:2px,color:#5f4313;
-    class A,J,K,L system;
-    class B sensing;
-    class C,D,E,G,H,I analysis;
-    class F decision;
-```
-
-## Build Order
-
-1. Confirm compatibility for the RPLIDAR C1, MPU-650, ESP32 boards, motor driver, UBEC, battery, and motors.
-2. Print the tread chassis and mount the two JGY 370 motors.
+2. Print the tread or wheeled chassis and mount the two JGY 370 motors.
 3. Install the 3S LiPo, battery connectors, UBEC 5V/3A regulator, and motor driver.
 4. Install the motor control ESP32 and ESP32-CAM.
 5. Mount and wire the RPLIDAR C1 and MPU-650.
@@ -92,4 +76,16 @@ flowchart LR
 The loop repeats continuously: the camera sends new information, the central computer makes a decision, and the motor ESP32 carries out the command.
 
 
-Credit to CHATGPT for test Image generation on possible paint styles and camera positioning
+## How do the robots communicate and perform complex operations on limited hardware?
+
+
+![Heath Scoring Diagram](/Users/georgekoniaris/Dirtlets/dirtlets-swarm-flow.svg) 
+
+## How does the robot traverse landscapes without getting stuck or hitting something?
+
+# The Answer is Obstical Avoidence. 
+With the introduction of the RGB Camera as an addon I have been utilizing YOLO and OpenCV to dected and try to gauge how far objects are and the probilitlity of hitting it using (Blank for now IDK how I will figure it out)
+
+
+Credit to OpenAI (2026) For test Image generation on possible paint styles and previews
+Credit to Anthropic (2026) For Re-Coloring Flowchart #1 into Martian Colors
