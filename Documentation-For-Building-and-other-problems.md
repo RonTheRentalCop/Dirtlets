@@ -4,7 +4,7 @@
 
 | Option 1 | Option 2 | Option 3 |
 |:---:|:---:|:---:|
-| ![Option 1](https://example.com) | ![Option 2](https://example.com) | ![Option 3](https://example.com) |
+| ![Option 1](/Users/georgekoniaris/Dirtlets/System-Overview.png) | ![Option 2](https://example.com) | ![Option 3](https://example.com) |
 
 
 ## What ways can we go about building these robots?
@@ -92,3 +92,4 @@ flowchart LR
 The loop repeats continuously: the camera sends new information, the central computer makes a decision, and the motor ESP32 carries out the command.
 
 
+Credit to CHATGPT for test Image generation on possible paint styles and camera positioning

@@ -1,3 +1,7 @@
+# Citation: AI-assisted code generation - Claude (Anthropic, 2026).
+# AI help was limited to small scripting mistakes and troubleshooting
+# while fixing shorted electronics. The code and design are my own.
+
 import time
 import cv2 as cv
 from ultralytics import YOLO
@@ -7,7 +11,6 @@ model = YOLO("yolov8n.pt")
 
 
 def detect_objects(frame):
-    """Placeholder for the future YOLO object detection call."""
     results = model(frame, verbose=False)
     detections = []
     for result in results:
