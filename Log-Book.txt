@@ -40,3 +40,9 @@ Thursday September 10th
 - Refined both flowcharts with a professional technical-document style: graphite, steel blue, muted teal, and limited amber for decisions. Removed the pastel and purple styling to improve readability and visual hierarchy.
 - Enlarged the Robot Control Loop diagram with larger text, more spacing, and added diagram padding so the operating cycle is easier to inspect.
 - Object recognition will use an established image-recognition library running on the central computer. The project will not build an object-recognition system from scratch; its code will connect the library to the incoming ESP32-CAM video stream and use the detected objects to make movement decisions.
+
+Friday September 11th
+- Cleaned up planning placeholders in `Object_Detection_Test.py` so the script can run while object recognition is still being designed.
+- Added a temporary `detect_objects()` function that returns an empty list until the YOLO library is connected.
+- Added valid placeholder bodies to the unfinished speaker and rage-mode functions.
+- Moved the detection placeholder above the camera loop and removed references to undefined planning variables.
