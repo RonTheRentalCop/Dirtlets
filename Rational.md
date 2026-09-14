@@ -1,0 +1,71 @@
+# Assignment #4
+
+## Project Question
+
+How can a group of affordable, autonomous rovers work together to map unfamiliar terrain and identify promising landing areas more efficiently than one large rover?
+
+## Paragraph 1: Existing Knowledge and Engineering Background
+
+Researchers and engineers have already shown that robotic spacecraft can collect scientific data in environments that are difficult or dangerous for people to reach. NASA's Mars rovers use cameras, spectrometers, drills, and other instruments to study rocks, soil, and the history of Mars (NASA, n.d.). Engineers have also created multi robot missions. NASA's Cooperative Autonomous Distributed Robotic Exploration, or CADRE, mission is designed to demonstrate several small rovers working together on the Moon (NASA, 2024).
+
+Researchers and engineers learned these lessons by testing robots in laboratories, deserts, volcanic areas, and other difficult environments; developing sensors; and analyzing data from robotic missions. Multi robot research has also studied how robots can divide tasks and coordinate their actions (Gerkey & Mataric, 2004). Engineers still need to improve how low cost robots share information, maintain communication, select leaders, and continue working when one robot fails. The Dirtlets project addresses this challenge by proposing different rover roles, including scout rovers, science rovers, and communication or relay rovers. These roles could use similar tracked bases while carrying different sensors or equipment.
+
+## Paragraph 2: Important Keywords and Concepts
+
+### Swarm robotics
+
+Swarm robotics is an approach in which multiple robots coordinate as one system. Each robot follows local rules and shares information, allowing the group to complete tasks that would be difficult for one robot. This idea is related to collective behavior in social insects, bird flocks, and schools of fish (Beni & Wang, 1993).
+
+### Multi agent autonomous navigation
+
+A multi agent system contains several independent agents, such as robots, that communicate and make decisions while sharing an environment. Autonomous navigation means that a robot uses sensors, a map, and programmed rules to move without continuous human control. The robots must avoid obstacles, maintain safe routes, and coordinate their actions.
+
+### Lidar and RGB camera data
+
+Lidar, or light detection and ranging, measures distance by sending out laser pulses and measuring how long their reflections take to return. It can create a point cloud, which is a group of measured points representing the shape of the surroundings (NASA Earthdata, n.d.). An RGB camera records ordinary red, green, and blue color images. Combining lidar with RGB video can provide both the shape and visual appearance of an environment, but the sensors must be time synchronized and spatially calibrated so their measurements line up correctly.
+
+### Health Score (HS)
+
+The Health Score is a proposed numerical value for estimating how capable each rover is at a given moment. It could include battery level, motor condition, sensor status, communication quality, position, and mobility. The score would help the swarm select a temporary local leader instead of depending on one permanent leader.
+
+## Paragraph 3: Impact and Beneficiaries
+
+The project could benefit planetary scientists, mission planners, astronauts, space agencies, and private aerospace companies. These groups need reliable information about terrain, hazards, resources, and possible landing locations before sending people or expensive equipment to another world. A concrete example is a group of Dirtlets surveying several possible landing zones while a central computer compares slope, obstacles, surface roughness, and other measurements. That information could help mission planners reject an unsafe site before a much more expensive landing attempt.
+
+The project also has possible Earth based applications. Similar tracked robots could be adapted for tunnels, sewers, mines, industrial facilities, disaster areas, or other locations that are unsafe for people. Emergency response teams, infrastructure inspectors, and environmental researchers could benefit from robots that collect information while keeping people away from dangerous conditions.
+
+My personal connection to this project is that I am interested in space exploration, robotics, and building a practical swarm system with limited resources. I want to investigate whether a group of simpler robots can collect useful information without requiring a very expensive computer on every rover. The project connects to larger challenges in space exploration: reducing mission cost, improving resilience, increasing the area that can be surveyed, and making exploration safer for future crews.
+
+## Paragraph 4: Knowledge and Invention Gap
+
+Existing missions demonstrate both advanced single rover exploration and the promise of coordinated small rovers, but there is still a practical gap between those systems and an affordable prototype. A low cost swarm must coordinate mapping, video, obstacle avoidance, communication, and leadership while using inexpensive hardware with limited processing power. It must also continue operating when a rover or communication link fails.
+
+The specific gap addressed by this project is how to combine low cost ESP32 based rover hardware with central computer processing, lidar mapping, image recognition, and Health Score leadership in one workable system. This project will investigate whether the central computer can process streamed sensor data, maintain a shared map, select a capable local leader, and send safe navigation commands back to the swarm.
+
+## Paragraph 5: Proposed Approach
+
+To address this gap, I will build a proof of concept tracked rover using an ESP32 motor control board, an ESP32 camera, an RPLIDAR C1, an MPU 650, a motor driver, a UBEC regulator, a 3S LiPo battery, and two JGY 370 motors. The ESP32 boards will handle motor control, camera streaming, and basic sensor communication. A central computer will perform the more demanding operations.
+
+The central computer will use OpenCV to receive and process video and an established image recognition library, such as YOLO through Ultralytics, to identify objects. It will combine the video, lidar, inertial, and movement data to build a map and make navigation decisions. The project will not build an object recognition model from scratch. Instead, it will study how an existing model can be integrated into a low cost multi rover system.
+
+The robots will report their condition to the central computer. The computer will calculate a Health Score for each rover and use those scores to select a temporary local leader. The leader will help relay information from nearby rovers. If the leader's battery, mobility, sensors, or communication quality become worse, leadership can move to another rover. The central computer will then send commands for the group to travel safely, spread out, investigate an area, and update the shared map.
+
+## Cohesive Rationale
+
+Traditional planetary exploration often depends on one extremely expensive rover or spacecraft. These vehicles can produce valuable scientific results, but a single vehicle may cover limited ground and becomes a single point of failure if it is damaged or loses communication. Research from robotic missions has shown the value of remote sensing, while newer work such as NASA's CADRE mission demonstrates the potential of multiple small rovers coordinating on the Moon (NASA, n.d.; NASA, 2024). However, an affordable system that combines swarm coordination, lidar mapping, video recognition, central processing, and dynamic leadership still needs practical testing.
+
+The Dirtlets project proposes a swarm of tracked rovers that can navigate autonomously and work together to survey unfamiliar terrain. Each rover would use lidar to measure distance, an RGB camera to provide visual information, and an inertial sensor to help estimate movement. A central computer would combine those streams into a shared map and analyze conditions such as obstacles, surface shape, and possible landing areas. A Health Score would compare each rover's battery, mobility, sensor condition, position, and communication quality so the swarm could select the most capable local leader and reassign leadership when necessary.
+
+This approach could help planetary scientists, mission planners, astronauts, and aerospace companies evaluate terrain before sending people or expensive equipment. It could also be adapted for dangerous Earth environments such as mines, tunnels, sewers, industrial facilities, and disaster areas. My personal motivation is to explore whether a group of affordable robots can perform useful cooperative work instead of depending on one very expensive machine. For the first prototype, ESP32 boards will stream video and control the motors while a central computer performs image recognition, lidar processing, mapping, and navigation. By testing this architecture, the project will address a specific engineering gap: whether low cost rover hardware and shared central computation can support reliable multi robot exploration.
+
+## Sources
+
+Beni, G., & Wang, J. (1993). Swarm intelligence in cellular robotic systems. In Proceedings of NATO Advanced Workshop on Robots and Biological Systems, pages 703 to 712. Springer.
+
+Gerkey, B. P., & Mataric, M. J. (2004). A formal analysis and taxonomy of task allocation in multi robot systems. The International Journal of Robotics Research, 23(9), 939 to 954.
+
+NASA. (2024). NASA's CADRE rovers to explore the Moon in 2026. NASA.
+
+NASA. (n.d.). Mars 2020 Perseverance rover. NASA Jet Propulsion Laboratory.
+
+NASA Earthdata. (n.d.). Lidar. NASA Earthdata.
