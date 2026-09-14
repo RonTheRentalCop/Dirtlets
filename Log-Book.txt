@@ -41,8 +41,18 @@ Thursday September 10th
 - Enlarged the Robot Control Loop diagram with larger text, more spacing, and added diagram padding so the operating cycle is easier to inspect.
 - Object recognition will use an established image-recognition library running on the central computer. The project will not build an object-recognition system from scratch; its code will connect the library to the incoming ESP32-CAM video stream and use the detected objects to make movement decisions.
 
+- Repaired `Build-Camp.md` after adding the robot design options. Placed the three option images in a single table row and removed the accidental indentation around the Mermaid build chart so it renders as a diagram again.
+- Rebuilt the top build flowchart around the current parts list. Added separate preparation, drivetrain, power, control-electronics, sensor, and test phases, including the RPLIDAR C1, MPU-650, two ESP32 boards, ESP32-CAM, UBEC, motor driver, LiPo, JGY 370 motors, chassis, and central-computer testing.
+
 Friday September 11th
 - Cleaned up planning placeholders in `Object_Detection_Test.py` so the script can run while object recognition is still being designed.
 - Added a temporary `detect_objects()` function that returns an empty list until the YOLO library is connected.
 - Added valid placeholder bodies to the unfinished speaker and rage-mode functions.
 - Moved the detection placeholder above the camera loop and removed references to undefined planning variables.
+
+- Replaced the crowded top build chart with a cleaner four-stage architecture covering the mechanical platform, power and drive, control and sensing, and system verification.
+- Added an “Assignment and Rationale” section to `README.md` explaining the swarm concept, lidar mapping, Health Score leadership, central-computer processing, and the cost advantage of ESP32-based rovers.
+- Reworked the top flowchart to connect the complete exploration cycle: swarm sensing, central analysis, Health Score leadership, candidate-area selection, safe navigation, and map updates. Changed the remaining dark flowchart node to a white professional style.
+- Created `Assignment-and-Rationale.md` with a grammatically revised version of the project proposal and its supporting rationale.
+- Expanded `Assignment-and-Rationale.md` to answer the full assessment rubric: existing engineering knowledge, defined technical concepts, impacted stakeholders, personal connection, knowledge gap, proposed approach, cohesive rationale, and five APA-style sources.
+- Enlarged the top mission flowchart to match the bottom control-loop chart by using the same 18px text, spacing, and diagram padding settings.
