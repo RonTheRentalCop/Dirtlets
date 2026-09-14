@@ -55,4 +55,6 @@ Friday September 11th
 - Reworked the top flowchart to connect the complete exploration cycle: swarm sensing, central analysis, Health Score leadership, candidate-area selection, safe navigation, and map updates. Changed the remaining dark flowchart node to a white professional style.
 - Created `Assignment-and-Rationale.md` with a grammatically revised version of the project proposal and its supporting rationale.
 - Expanded `Assignment-and-Rationale.md` to answer the full assessment rubric: existing engineering knowledge, defined technical concepts, impacted stakeholders, personal connection, knowledge gap, proposed approach, cohesive rationale, and five APA-style sources.
+- Added `Core/Lidar-Testing.py`, a simple OpenCV test UI for the RPLIDAR C1. It connects through the installed `rplidarc1` package at 460800 baud, displays a live polar scan, reports point count and nearest distance, and shows connection errors.
+- Confirmed the project `.venv` uses Python 3.14 and has `rplidarc1`, `pyserial`, and `opencv-python` installed. The system Python 3.9 is not suitable because the lidar package requires Python 3.10 or newer.
 - Enlarged the top mission flowchart to match the bottom control-loop chart by using the same 18px text, spacing, and diagram padding settings.
