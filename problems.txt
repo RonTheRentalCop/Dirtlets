@@ -78,3 +78,5 @@ Total:
     Data sent back to the seperate ESP 32 board that controls motor and steering functions to make the changes
     |
     This needs to circle all the way back.
+
+Newest problem has occured when I thought my code just sucked so I kept writing and trying to fix it just to find out my Adapting Board was DOA (Dead On Arrival)
