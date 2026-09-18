@@ -122,3 +122,7 @@ Changes made to the build plan:
 - Separate power wiring from signal and telemetry wiring where possible.
 - Add space for protective covers, waterproofing, and weatherproofing.
 - Treat the specialized rover roles as a future swarm expansion instead of requiring every part on the first rover.
+
+## 3D Printer Problem That Affected the Tread Design
+
+The printer also became a major problem in the build. It was a free printer I found on Facebook Marketplace and repaired myself. At first, the gears, tracks, and axles looked like they were printing fine, but later the parts started coming out jumbled instead of usable. I spent about three to four weeks trying to fix it, but there was very little improvement. This is another reason I am considering the larger wheeled prototype. I cannot plan the first working rover around tread parts that my printer cannot reliably produce. The tracked design is still being kept, but the wheeled version lets me continue testing the electronics, telemetry, camera, and autonomous systems while the printer problem is still being worked out.
