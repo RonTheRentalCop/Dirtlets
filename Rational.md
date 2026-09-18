@@ -83,3 +83,27 @@ NASA. (2024). NASA's CADRE rovers to explore the Moon in 2026. NASA.
 NASA. (n.d.). Mars 2020 Perseverance rover. NASA Jet Propulsion Laboratory.
 
 NASA Earthdata. (n.d.). Lidar. NASA Earthdata.
+
+Adams, C., Smith, T., Woodard, A., Van Kints, E., Kempa, B., & Frank, J. (2024). Next-generation multi-agent swarm (NGS) study. NASA Ames Research Center.
+
+Decentralized path planning in lunar robot swarms: Local optimization for collision avoidance under constrained perception. (2026). IEEE. [https://xplorestaging.ieee.org/document/11101941](https://xplorestaging.ieee.org/document/11101941)
+
+E, J., Bao, R., Fan, J., Dai, Z., Cui, E., Li, N., & Wang, K. (2026). A scenario-driven review of multi-agent cooperation for lunar surface missions. Acta Astronautica, 248, 111-138. [https://www.sciencedirect.com/science/article/abs/pii/S0094576526003838?via%3Dihub](https://www.sciencedirect.com/science/article/abs/pii/S0094576526003838?via%3Dihub)
+
+Hinchey, M. G., Sterritt, R., Rouff, C., Rash, J. L., & Truszkowski, W. F. (2005). Autonomous and autonomic swarms. In Proceedings of the 2005 International Conference on Software Engineering Research and Practice (SERP'05). CSREA Press.
+
+Lunarminer framework for nature-inspired swarm robotics in lunar water ice extraction. (2024). Biomimetics, 9(11), 680. The original link is currently unavailable because the page was removed for maintenance.
+
+Martinez Rocamora, B., Kilic, C., Tatsch, C., Pereira, G. A. S., & Gross, J. N. (2023). Multi-robot cooperation for lunar in-situ resource utilization. Frontiers in Robotics and AI, 10, 1149080. https://doi.org/10.3389/frobt.2023.1149080
+
+NASA. (2025). What is NASA's Distributed Spacecraft Autonomy? NASA Ames Research Center. [https://www.nasa.gov/centers-and-facilities/ames/what-is-nasas-distributed-spacecraft-autonomy/](https://www.nasa.gov/centers-and-facilities/ames/what-is-nasas-distributed-spacecraft-autonomy/)
+
+NASA Jet Propulsion Laboratory. (n.d.). CADRE (Cooperative Autonomous Distributed Robotic Exploration). [https://www.jpl.nasa.gov/missions/cadre/](https://www.jpl.nasa.gov/missions/cadre/)
+
+REALMS2: Resilient exploration and lunar mapping system 2. (2025). arXiv.
+
+SKiD-SLAM: Resource-aware distributed multi-robot LiDAR SLAM for planetary missions with field deployments at analog sites. (2026). IEEE Transactions on Field Robotics. GitHub: [https://github.com/sparolab/SKiD-SLAM](https://github.com/sparolab/SKiD-SLAM)
+
+## YouTube Videos
+
+DIY Autonomous ESP32 Robot (GPS, Obstacle Avoidance). [https://www.youtube.com/watch?v=neAgJPl7brA](https://www.youtube.com/watch?v=neAgJPl7brA)

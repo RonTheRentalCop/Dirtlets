@@ -12,7 +12,7 @@ Dirtlets are a prototype built to answer a single central question: How can a fl
 
 | Option 1 | Option 2 | Option 3 |
 |:---:|:---:|:---:|
-| ![Option 1](/Users/georgekoniaris/Dirtlets/Photos/System-Overview.png) | ![Option 2](https.example.com) | ![Option 3](https://example.com) |
+| ![Option 1](Photos/System-Overview.png) | ![Option 2](https.example.com) | ![Option 3](https://example.com) |
 
 
 ## Robot Control Loop
@@ -74,7 +74,7 @@ With the introduction of the RGB Camera as an addon I have been utilizing YOLO a
 # How can we build these robots?
 
 
-![Parts for 1 Drone](/Users/georgekoniaris/Dirtlets/Photos/B2A91A74-E1BD-4242-B102-8C0E68D58D7D_4_5005_c.jpeg) 
+![Parts for 1 Drone](Photos/B2A91A74-E1BD-4242-B102-8C0E68D58D7D_4_5005_c.jpeg)
 
  I started with trying to test out the RPLIDAR C1 to see if it is working. It did not work. The electricity regulating board did not work it was dead on arrival. I am having issues with finding a good replacement so I decieded to return the whole LIDAR to try to get a replacement. 
 
