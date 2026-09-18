@@ -7,7 +7,7 @@ import espnow
 # Data goes in through esp 32 or hosted offline network
 # I need all the data to transmit to the other robots so an inital robot can be made leader to preform the caluclation
 
-# Question: How much does it really matter the amount of computing that the boards do?
+#Question: How much does it really matter the amount of computing that the boards do?
 
 
 def recive_data():

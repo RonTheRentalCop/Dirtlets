@@ -82,3 +82,7 @@ Total:
 Newest problem has occured when I thought my code just sucked so I kept writing and trying to fix it just to find out my Adapting Board was DOA (Dead On Arrival)
 
 Newest issue is my shit ass vs code was not configured so I ended up not getting the commit history to make me have more aura
+
+In the ever growing list of dumb issues I have last night I used my supreme intillect to hone my electrical skills and in the pursuit of slicing my first wire I did it and attached wires wrong and it caught on fire.
+
+In my streak of unbelevable luck I have been blessed with another faulty board. This is very irritatting so I might buy some more online.
