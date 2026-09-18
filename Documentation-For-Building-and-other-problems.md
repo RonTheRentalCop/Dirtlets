@@ -12,7 +12,7 @@ Dirtlets are a prototype built to answer a single central question: How can a fl
 
 | Option 1 | Option 2 | Option 3 |
 |:---:|:---:|:---:|
-| ![Option 1](/Users/georgekoniaris/Dirtlets/System-Overview.png) | ![Option 2](https.example.com) | ![Option 3](https://example.com) |
+| ![Option 1](/Users/georgekoniaris/Dirtlets/Photos/System-Overview.png) | ![Option 2](https.example.com) | ![Option 3](https://example.com) |
 
 
 ## Robot Control Loop
@@ -70,7 +70,9 @@ With the introduction of the RGB Camera as an addon I have been utilizing YOLO a
 
 # How can we build these robots?
 
+ I started with trying to test out the RPLIDAR C1 to see if it is working. It did not work. The electricity regulating board did not work it was dead on arrival. I am having issues with finding a good replacement so I decieded to return the whole LIDAR to try to get a replacement. 
 
+ After that I started to learn soldering due to the fact I have never touched hardware tinkering in any capacity. 
 
 1. **Prepare the design and parts.** Before printing or wiring, confirm the chassis dimensions, wheel or tread layout, component clearances, mounting holes, cable routes, and estimated center of gravity. The current prototype uses a 3D printer with at least a 200 × 200 mm build area (a Creality Ender 3 Pro was used), two JGY-370 12 V, 10 RPM worm-gear motors, an RPLIDAR A1 or C1, an MPU-650 IMU, one or more ESP32 boards, an ESP32-CAM, a motor driver, a 5 V/3 A UBEC or buck regulator, a suitable 3S LiPo battery, a LiPo-compatible balance charger, battery connectors, wire, heat-shrink tubing, cable ties, solder, and basic hand tools. Choose a motor driver that is rated for the motors' continuous and stall current; do not select it based only on the motor's nominal voltage.
 
