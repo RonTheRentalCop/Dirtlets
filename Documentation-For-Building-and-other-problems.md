@@ -108,3 +108,17 @@ Credit to Anthropic (2026) For Re-Coloring Flowchart #1 into Martian Colors
 ## Prototype Design Revision
 
 The original tracked design remains the long-term direction for the planetary rover concept, so the existing tread references and plans are being kept. For the first working prototype, however, the design may pivot to a larger wheeled chassis. The tracked approach has been difficult because the correct tread materials are not available, and the first chassis was too small to adapt for larger treads that would improve traversal over uneven land. A larger wheeled chassis should also make telemetry easier to integrate and provide enough room for safe separation of power and signal wiring, electronics mounting, waterproofing, and weatherproofing. This revision is intended to make the first prototype testable without abandoning the future tracked design.
+
+## Why This New Build Block Exists
+
+I am adding this block because the build plan needs to match what I can actually make with the materials and chassis I have. The tracked design is still part of the project, but the first rover may switch to a larger wheeled Mars-rover-style design. The old chassis was too small for larger treads, I did not have the right tread materials, and the tread system was becoming harder to adapt for easier land traversal. A bigger wheeled chassis gives me more space for the electronics, telemetry equipment, separate power and signal wiring, waterproofing, and weatherproofing.
+
+The swarm plan is also changing from identical robots to different robot types that work together autonomously. Small squads of about three robots can move together while dividing the work. One can focus on soil analysis, one can relay communication and telemetry, and one can use lidar and an RGB camera to map and record the area. A separate robotic-arm rover could be controlled through its RGB-camera view to collect samples, clear an obstruction, or help another rover that is stuck.
+
+Changes made to the build plan:
+- Keep the old tracked design notes instead of deleting them.
+- Use a larger wheeled chassis for the first practical prototype if it is easier to build and protect.
+- Leave enough room for the ESP32 boards, lidar, camera, battery, motor driver, and wiring.
+- Separate power wiring from signal and telemetry wiring where possible.
+- Add space for protective covers, waterproofing, and weatherproofing.
+- Treat the specialized rover roles as a future swarm expansion instead of requiring every part on the first rover.
