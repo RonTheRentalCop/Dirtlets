@@ -95,5 +95,7 @@ Friday September 18th
 - The reason for the change is that I did not have the right tread materials, the original chassis was too small for larger treads, and the system needs more space for electronics, telemetry, safe wire separation, waterproofing, and weatherproofing.
 - The swarm will be autonomous but will use different robot types instead of identical copies. Squads of about three robots could include a soil-analysis rover, a communication rover, and a lidar mapping rover. A separate robotic-arm rover could collect samples, clear obstacles, or help another rover get unstuck through an operator's RGB-camera view.
 - I added these notes to the build documentation so the changes are explained as a practical prototype decision and not mistaken for deleting the original tracked design.
+- Added another reason for the design pivot: my 3D printer has been unreliable. It was a free printer from Facebook Marketplace that I repaired. The gears, tracks, and axles printed correctly at first, but then the parts started coming out jumbled and unusable.
+- Tried to fix the printer for about three to four weeks, but there was very little improvement. Since I cannot reliably print the tread parts, the larger wheeled rover is a more realistic first prototype while the printer and tracked design are still being worked on.
 - Current project status: the ESP32 software plan is ready to begin, while lidar testing remains paused until the replacement board arrives.
 

@@ -27,3 +27,5 @@ Why this new design block exists: I am adding this because the project has moved
 
 The robots will not all be identical. They will work as an autonomous heterogeneous swarm, meaning they will cooperate but use different hardware systems. A squad of about three robots could include a soil robot, a communication robot, and a mapping robot with lidar and an RGB camera. Other robots could have a robotic arm controlled through a camera view so an operator can collect rocks or dirt, clear objects, or help a stuck rover. I am adding these roles because one robot does not need to carry every expensive sensor and tool.
 
+The printer has also affected the design decision. It was a free printer from Facebook Marketplace that I repaired. It printed some of the gears, tracks, and axles correctly at first, but later it started making jumbled parts. I worked on trying to fix it for about three to four weeks with very little improvement. Since I cannot reliably print the tread parts yet, the larger wheeled prototype gives me a better chance to build and test the electronics and autonomous systems while I keep working on the printer.
+
