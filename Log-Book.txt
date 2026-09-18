@@ -58,3 +58,20 @@ Friday September 11th
 - Added `Core/Lidar-Testing.py`, a simple OpenCV test UI for the RPLIDAR C1. It connects through the installed `rplidarc1` package at 460800 baud, displays a live polar scan, reports point count and nearest distance, and shows connection errors.
 - Confirmed the project `.venv` uses Python 3.14 and has `rplidarc1`, `pyserial`, and `opencv-python` installed. The system Python 3.9 is not suitable because the lidar package requires Python 3.10 or newer.
 - Enlarged the top mission flowchart to match the bottom control-loop chart by using the same 18px text, spacing, and diagram padding settings.
+
+Monday September 14th
+- Tested the RPLIDAR C1 validation program using the project `.venv`.
+- Confirmed that the Python environment and lidar test code compile and import correctly.
+- Checked the Mac for a USB serial device and confirmed that no RPLIDAR, SLAMTEC, or USB-to-serial device appeared.
+- Reconnected the board and checked the USB connection again, but the computer still could not detect it.
+- Determined that the original RPLIDAR board was dead on arrival. Hardware testing is paused until the replacement board arrives.
+- Recorded the next hardware-testing sequence: check for a new serial port, run `Core/Lidar-Testing.py`, confirm live scan points, and verify the nearest-distance reading.
+
+Tuesday September 16th
+- Investigated why local commits were not appearing in the GitHub profile contribution history.
+- Found that earlier commits used the placeholder email `YOUR_GITHUB_NOREPLY_EMAIL`, which GitHub could not associate with the account.
+- Configured the local repository to use the GitHub username `RonTheRentalCop` and the verified email `koniarisg27@stu.wlwv.k12.or.us` for future commits.
+- Confirmed that the repository already points to `RonTheRentalCop/Dirtlets` on GitHub.
+- Future changes must be committed with the corrected identity and pushed to the `main` branch before they can appear in the profile history. Older commits with the placeholder email will not automatically be associated with the profile.
+- Current project status: software planning and lidar test code are ready, but live sensor validation is waiting on the replacement board.
+

@@ -80,3 +80,5 @@ Total:
     This needs to circle all the way back.
 
 Newest problem has occured when I thought my code just sucked so I kept writing and trying to fix it just to find out my Adapting Board was DOA (Dead On Arrival)
+
+Newest issue is my shit ass vs code was not configured so I ended up not getting the commit history to make me have more aura

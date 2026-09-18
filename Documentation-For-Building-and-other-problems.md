@@ -70,6 +70,8 @@ With the introduction of the RGB Camera as an addon I have been utilizing YOLO a
 
 # How can we build these robots?
 
+
+
 1. **Prepare the design and parts.** Before printing or wiring, confirm the chassis dimensions, wheel or tread layout, component clearances, mounting holes, cable routes, and estimated center of gravity. The current prototype uses a 3D printer with at least a 200 × 200 mm build area (a Creality Ender 3 Pro was used), two JGY-370 12 V, 10 RPM worm-gear motors, an RPLIDAR A1 or C1, an MPU-650 IMU, one or more ESP32 boards, an ESP32-CAM, a motor driver, a 5 V/3 A UBEC or buck regulator, a suitable 3S LiPo battery, a LiPo-compatible balance charger, battery connectors, wire, heat-shrink tubing, cable ties, solder, and basic hand tools. Choose a motor driver that is rated for the motors' continuous and stall current; do not select it based only on the motor's nominal voltage.
 
 2. **Plan the electrical system.** Draw a wiring diagram before connecting the battery. Route the battery through an appropriate switch or fused power-distribution point, then provide separate regulated power for the logic and sensors. Verify the UBEC output with a multimeter before connecting an ESP32 or sensor. Check the polarity of every connector, use strain relief on battery and motor wires, keep motor wiring separated from sensor wiring where practical, and connect all required grounds. Do not power motors directly from an ESP32. Ensure that the regulator, connectors, wire gauge, and motor driver can handle the expected current and heat.
