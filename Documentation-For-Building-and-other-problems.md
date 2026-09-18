@@ -104,3 +104,7 @@ With the introduction of the RGB Camera as an addon I have been utilizing YOLO a
 
 Credit to OpenAI (2026) For test Image generation on possible paint styles and previews
 Credit to Anthropic (2026) For Re-Coloring Flowchart #1 into Martian Colors
+
+## Prototype Design Revision
+
+The original tracked design remains the long-term direction for the planetary rover concept, so the existing tread references and plans are being kept. For the first working prototype, however, the design may pivot to a larger wheeled chassis. The tracked approach has been difficult because the correct tread materials are not available, and the first chassis was too small to adapt for larger treads that would improve traversal over uneven land. A larger wheeled chassis should also make telemetry easier to integrate and provide enough room for safe separation of power and signal wiring, electronics mounting, waterproofing, and weatherproofing. This revision is intended to make the first prototype testable without abandoning the future tracked design.

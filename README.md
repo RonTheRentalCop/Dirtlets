@@ -13,6 +13,8 @@ Traditional planetary exploration missions often depend on one extremely expensi
 
 The Dirtlets proposal is to develop a swarm of tracked lunar and planetary rovers that can navigate autonomously and work together to cover more terrain. Each rover would use lidar to measure its surroundings and contribute data to a shared map. The central computer would combine the sensor data, analyze environmental conditions, and identify areas that may be suitable for landing or future habitation.
 
+Prototype design revision: the first practical prototype may use a larger wheeled chassis instead of the original tracked design. The wheeled option should make telemetry integration, electronics placement, wiring separation, waterproofing, weatherproofing, and maintenance easier. The tracked design remains part of the long-term planetary rover concept, but the prototype must first use a chassis large enough to safely contain the electronics and wiring.
+
 The swarm would also use a Health Score (HS) system. The score could consider battery level, mobility, sensor status, position, and communication quality. The rover with the strongest score in a local group could act as that group’s leader and relay information to the central computer. Leadership would be reassigned when another rover becomes better suited to the role.
 
 When the central computer identifies a promising area, it can send navigation instructions back to the swarm. The rovers would travel safely to that location, spread out, and investigate the surrounding terrain. This approach distributes sensing across multiple lower-cost vehicles instead of depending on one expensive machine.
