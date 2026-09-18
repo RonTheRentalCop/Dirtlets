@@ -3,25 +3,11 @@ Dirtlets are little robots that are being designed to be a proof of concept SWAR
 
 Dirtlets are little robots designed to autonomously navigate, map, and record environmental conditions to collectively create a map of an area or multiple areas. They also use a leader election system based on a Health Score (HS) calculated from battery life, mobility, current location, and other metrics to determine which leader will transmit the gathered data back to the central computer.
 
-Intellectual Property Claim: © George Koniaris 2026
-
-## Project Documents
+## Documentation
 
 - [Rational](Rational.md): project rationale, design decisions, and swarm architecture.
 - [Problems and Parts List](problems.txt): design problems, parts, costs, and current hardware options.
 - [Build Documentation](Documentation-For-Building-and-other-problems.md): assembly, wiring, safety, testing, and design revisions.
 - [ESP32 Setup](ESP32_Setup.md): ESP32 development and hardware setup notes.
 - [Log Book](Log-Book.txt): dated project progress and decisions.
-
-## Diagrams and Media
-
-- [Swarm Flow Diagram](dirtlets-swarm-flow.svg)
-- [Project Photos](Photos/)
-
-## Core Programs
-
-- [Health Score System](Core/Health-Score-System.py)
-- [Lidar Testing](Core/Lidar-Testing.py)
-- [Object Detection Test](Core/Object-Detection-test.py)
-- [Lidar Mapping](Core/Multi-Single-Mapped-LIDARMAP.py)
 
