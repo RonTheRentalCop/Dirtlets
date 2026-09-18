@@ -68,7 +68,13 @@ The loop repeats continuously: the camera sends new information, the central com
 # The Answer is Obstical Avoidence. 
 With the introduction of the RGB Camera as an addon I have been utilizing YOLO and OpenCV to dected and try to gauge how far objects are and the probilitlity of hitting it using (Blank for now IDK how I will figure it out)
 
+
+
+
 # How can we build these robots?
+
+
+![Parts for 1 Drone](/Users/georgekoniaris/Dirtlets/Photos/B2A91A74-E1BD-4242-B102-8C0E68D58D7D_4_5005_c.jpeg) 
 
  I started with trying to test out the RPLIDAR C1 to see if it is working. It did not work. The electricity regulating board did not work it was dead on arrival. I am having issues with finding a good replacement so I decieded to return the whole LIDAR to try to get a replacement. 
 
