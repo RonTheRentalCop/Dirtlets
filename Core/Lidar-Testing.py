@@ -151,3 +151,9 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+
+# Things that might help
+# Because we have a 360 lidar we dont neeed any motors to move and pan. one thing to know is we need to somehow "slice a peice of the pie" by taking an angle that will be a degree slice to see then the distence from the rover to a possible obstical. But at the same time I need to do that onboard the rover so I might need to size them wayyy up
+# So when they are there what do I do I have my RGB and LIDAR Cams and I need to somehow figure out what is going on with whats in front of the rover while also still mapping so we might need to transmitt one data and then try at the same time to see waht is in front with the same data between the angle ranges

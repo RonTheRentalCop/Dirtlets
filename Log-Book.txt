@@ -75,3 +75,18 @@ Tuesday September 16th
 - Future changes must be committed with the corrected identity and pushed to the `main` branch before they can appear in the profile history. Older commits with the placeholder email will not automatically be associated with the profile.
 - Current project status: software planning and lidar test code are ready, but live sensor validation is waiting on the replacement board.
 
+Friday September 18th
+- Planned the responsibilities for the two ESP32 boards. The ESP32-CAM will stream video and basic telemetry, while the second ESP32 will control the motors and read local sensors.
+- Decided that the central computer will run the demanding tasks, including YOLO object detection, lidar processing, mapping, and navigation decisions. This keeps the rover hardware affordable and reduces the processing load on the ESP32 boards.
+- Identified the first ESP32 development goals: upload a basic test program, confirm serial communication, test the motor driver with the wheels lifted, and read data from the MPU-650 and wheel encoders.
+- Added a communication-safety requirement: the motor ESP32 must stop the motors automatically if commands from the central computer stop arriving.
+- Planned a simple command interface for early testing using commands such as `STOP`, `FORWARD`, `REVERSE`, `LEFT`, and `RIGHT` before moving to a more advanced network protocol.
+- Planned to test the ESP32-CAM separately by confirming the camera works, connecting it to the Wi-Fi network, and reading its video stream with OpenCV on the central computer.
+- Established the first complete demonstration goal: the central computer sends a movement command, the motor ESP32 responds briefly, and the rover stops automatically when communication is interrupted.
+- Fixed the Git synchronization problem by removing the scheduled build-log workflow, rebasing local work onto the remote branch, and pushing the corrected history to GitHub.
+- Updated the Git author identity to use the GitHub no-reply address `182666786+RonTheRentalCop@users.noreply.github.com` so GitHub privacy protection accepts future pushes.
+- Reviewed the tracked rover design and identified practical problems with using it for the first physical prototype. The current chassis is too small for the larger treads that would make land traversal easier, and the correct tread materials are not currently available.
+- Decided to consider a pivot to a larger wheeled chassis for the first prototype. The tracked design is still being kept as the long-term planetary rover direction.
+- The larger wheeled chassis should provide enough room for the electronics, make telemetry wiring easier to manage, allow safer separation between power and signal systems, and leave space for waterproofing and weatherproofing.
+- Current project status: the ESP32 software plan is ready to begin, while lidar testing remains paused until the replacement board arrives.
+

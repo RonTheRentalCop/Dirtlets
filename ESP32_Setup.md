@@ -24,7 +24,7 @@ With this Dev Board we will want to
 
 ### We will use our ESP32-CAM to conduct vision and telemetry.
 - Control the Motor Driver Booard
-- Read Wheel Encoders (Only if they are wheels if on treads its irrelevant)
+- Read Wheel Encoders (You have to have these for accurate data)
 - Read the MPU-650 IMU
 - Recive Movement commands from the CC
 

@@ -96,4 +96,7 @@ In another pursuit of greatness I have actually modeled my chasis that holds all
 But when digging through facebook marketplace I found a RC mustang with No treads but a full chasis w motors.
 So when one door closed another opened and I got the mustang so we will continue with this one (MAYBE)
 
+Prototype design revision:
+The original tracked design is still important to the long-term planetary rover concept, but the first prototype should pivot to a larger wheeled platform. The tracked version has been difficult to build because I do not have the right materials for reliable treads, and the first chassis was too small to adapt for larger treads that would make land traversal easier. The wheeled chassis should also make it easier to route telemetry wiring, separate power and signal electronics, and provide enough protected space for waterproofing and weatherproofing. The larger platform is needed because the electronics require more room than the original chassis provided.
+
 I recorded first clips for yt video I should post it this weekend
