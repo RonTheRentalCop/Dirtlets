@@ -6,8 +6,8 @@ Dirtlets are little robots designed to autonomously navigate, map, and record en
 ## Documentation
 
 - [Rational](Rational.md): project rationale, design decisions, and swarm architecture.
-- [Problems and Parts List](problems.txt): design problems, parts, costs, and current hardware options.
-- [Build Documentation](Documentation-For-Building-and-other-problems.md): assembly, wiring, safety, testing, and design revisions.
-- [ESP32 Setup](ESP32_Setup.md): ESP32 development and hardware setup notes.
-- [Log Book](Log-Book.txt): dated project progress and decisions.
+- [Problems and Parts List](problems.txt): design problems, parts, costs, and current hardware options things I encountered that made me mad.
+- [Build Documentation](Documentation-For-Building-and-other-problems.md): assembly, wiring, safety, testing, and design revisions. But to be honest, it lacks much of the building as of now.
+- [ESP32 Setup](ESP32_Setup.md): ESP32 development and hardware setup notes. Helps with setting up data transmission and just tinkering with your stuff.
+- [Log Book](Log-Book.txt): dated project progress and decisions. More professional logging of information and direction than my problems file. 
 
