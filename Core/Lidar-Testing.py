@@ -5,6 +5,7 @@ import sys
 import threading
 
 import cv2
+import numpy as np
 
 from rplidarc1 import RPLidar
 
@@ -77,7 +78,7 @@ class LidarReader:
 
 
 def draw_scan(scan_points, status, error_message=None):
-    image = 255 * (cv2.UMat(CANVAS_SIZE, CANVAS_SIZE, cv2.CV_8UC3).get())
+    image = np.full((CANVAS_SIZE, CANVAS_SIZE, 3), 255, dtype=np.uint8)
     center = CANVAS_SIZE // 2
     radius = center - MARGIN
 
@@ -108,6 +109,14 @@ def draw_scan(scan_points, status, error_message=None):
 
     return image
 
+def parse_float(value, default=None):
+    if value is None:
+        return default
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return default
+
 
 def main():
     port = sys.argv[1] if len(sys.argv) > 1 else find_port()
@@ -129,10 +138,20 @@ def main():
                 kind, value = reader.points.get_nowait()
             except queue.Empty:
                 break
+
             if kind == "point":
-                distance = float(value.get("d_mm", 0))
+                if not isinstance(value, dict):
+                    continue
+
+                distance = parse_float(value.get("d_mm"))
+                angle = parse_float(value.get("a_deg"))
+
+                if distance is None or angle is None:
+                    continue
+
                 if distance > 0:
-                    scan_points[float(value.get("a_deg", 0))] = distance
+                    scan_points[angle] = distance
+
             elif kind == "error":
                 error_message = value
                 status = value
@@ -151,9 +170,3 @@ def main():
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
-
-
-# Things that might help
-# Because we have a 360 lidar we dont neeed any motors to move and pan. one thing to know is we need to somehow "slice a peice of the pie" by taking an angle that will be a degree slice to see then the distence from the rover to a possible obstical. But at the same time I need to do that onboard the rover so I might need to size them wayyy up
-# So when they are there what do I do I have my RGB and LIDAR Cams and I need to somehow figure out what is going on with whats in front of the rover while also still mapping so we might need to transmitt one data and then try at the same time to see waht is in front with the same data between the angle ranges
