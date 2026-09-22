@@ -30,6 +30,8 @@ With this Dev Board we will want to
 
 ### FYI: Don't power the motors directly from the pins just use the ESP to send signals to the motor driveer while the battery powers the moters THROUGH THE DRIVER
 
+<img src="Photos/Screenshot 2026-09-22 at 9.14.26 AM.png" width="600">
+
 ## Using the Boards
 1. To start ysing the ESP32 we need to install the Arduino IDE or PlatformIO
 2. Then we need to add the ESP32 board package

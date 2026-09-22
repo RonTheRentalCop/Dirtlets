@@ -57,17 +57,53 @@ flowchart LR
 
 The loop repeats continuously: the camera sends new information, the central computer makes a decision, and the ESP-32 motor controller carries out the command.
 
+<br>
+
+## Why not just do on-board computing?
+The question I get asked again and again. The reason I am not completing on board computing is simply... I don't actually have enough money. The Rasberry Pies and other small stronger computers all have recently more than doubled in price due to people making home AI labs and simply price gouging.
+
+<br>
 
 ## How do the robots communicate and perform complex operations on limited hardware?
 
+These Rovers will use 
 
 ![Heath Scoring Diagram](/Users/georgekoniaris/Dirtlets/dirtlets-swarm-flow.svg) 
 
 ## How does the robot traverse landscapes without getting stuck or hitting something?
 
-# The Answer is Obstical Avoidence. 
+### The Answer is Obstical Avoidence. 
 With the introduction of the RGB Camera as an addon I have been utilizing YOLO and OpenCV to dected and try to gauge how far objects are and the probilitlity of hitting it using (Blank for now IDK how I will figure it out)
 
+<br>
+<br>
+
+
+
+
+# Obsticals in the path of greatness 
+
+ Biggest obstical is the fact I have little to no money
+ 
+ I know nothing about electrical engineering so soldering is NOT going well
+
+ My first wire I sliced and put together caught fire
+ 
+ I started with trying to test out the RPLIDAR C1 to see if it is working. It did not work. The electricity regulating board did not work it was dead on arrival. I am having issues with finding a good replacement so I decieded to return the whole LIDAR to try to get a replacement. 
+
+ After that I started to learn soldering due to the fact I have never touched hardware tinkering in any capacity. 
+
+ Update for the LIDAR I ended up getting a replacement in only two days new one works like a charm.
+
+ I learned to solder and how wires and the electronics work
+
+ Replaced all electronics in old RC Car hopefully it starts to work.
+
+
+
+<br>
+<br>
+<br>
 
 
 
@@ -76,10 +112,9 @@ With the introduction of the RGB Camera as an addon I have been utilizing YOLO a
 
 ![Parts for 1 Drone](Photos/B2A91A74-E1BD-4242-B102-8C0E68D58D7D_4_5005_c.jpeg)
 
- I started with trying to test out the RPLIDAR C1 to see if it is working. It did not work. The electricity regulating board did not work it was dead on arrival. I am having issues with finding a good replacement so I decieded to return the whole LIDAR to try to get a replacement. 
+<br>
 
- After that I started to learn soldering due to the fact I have never touched hardware tinkering in any capacity. 
-
+## Directions if you choose to use the 3d printer chasis. Just be mindful I did not end up using this due to space and navigation complications.
 1. **Prepare the design and parts.** Before printing or wiring, confirm the chassis dimensions, wheel or tread layout, component clearances, mounting holes, cable routes, and estimated center of gravity. The current prototype uses a 3D printer with at least a 200 × 200 mm build area (a Creality Ender 3 Pro was used), two JGY-370 12 V, 10 RPM worm-gear motors, an RPLIDAR A1 or C1, an MPU-650 IMU, one or more ESP32 boards, an ESP32-CAM, a motor driver, a 5 V/3 A UBEC or buck regulator, a suitable 3S LiPo battery, a LiPo-compatible balance charger, battery connectors, wire, heat-shrink tubing, cable ties, solder, and basic hand tools. Choose a motor driver that is rated for the motors' continuous and stall current; do not select it based only on the motor's nominal voltage.
 
 2. **Plan the electrical system.** Draw a wiring diagram before connecting the battery. Route the battery through an appropriate switch or fused power-distribution point, then provide separate regulated power for the logic and sensors. Verify the UBEC output with a multimeter before connecting an ESP32 or sensor. Check the polarity of every connector, use strain relief on battery and motor wires, keep motor wiring separated from sensor wiring where practical, and connect all required grounds. Do not power motors directly from an ESP32. Ensure that the regulator, connectors, wire gauge, and motor driver can handle the expected current and heat.
