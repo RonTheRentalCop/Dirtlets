@@ -4,8 +4,8 @@ Project Progress and Timeline for Success
 [x] Created Github Repository
 [x] Log Book Made
 [x] Obtain a 3d Printer
-[] Finish Parts List
-[] Verify Parts Compatibility
+[x] Finish Parts List
+[x] Verify Parts Compatibility
 [] 
 
 Thursday September 3rd
@@ -99,3 +99,4 @@ Friday September 18th
 - Tried to fix the printer for about three to four weeks, but there was very little improvement. Since I cannot reliably print the tread parts, the larger wheeled rover is a more realistic first prototype while the printer and tracked design are still being worked on.
 - Current project status: the ESP32 software plan is ready to begin, while lidar testing remains paused until the replacement board arrives.
 
+Imma stop updating it cuz its mad annoying yo
