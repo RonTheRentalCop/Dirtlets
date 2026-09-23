@@ -59,6 +59,21 @@ class ServoMount:
     sensor_height_m: float = 0.0
     sign: float = 1.0
 
+def navigation(distance_mm: float, angle_deg: float,
+               pitch_deg: float, mount: ServoMount
+               ) -> Tuple[float,float,float]
+    if distance_mm < 350:
+        #Seperate Servo from directional n angle recording feedback on efor the lidar
+        # This one needs to turn moter activity or direction down or to a stop
+        # Then take the servo and it needds to turn then apply slight moter acceleration or a reverse funciton
+        # but if something hits or is on the drone I need to figure out a protocall to do it
+        # Also this would be hard coded and I am going to guess it will end up needing to adapt to its environment
+        # so then what do I do? Idk
+    else: 
+        #continue motor function and traversal of the surface also lets try to do some ml or something
+        # to end up tyring to get the esp 32 cam on the drones to then be able to determine if the path is so called clear for driving
+        #  
+
 
 def lidar_point_to_world(distance_mm: float, angle_deg: float,
                          pitch_deg: float, mount: ServoMount
