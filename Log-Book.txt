@@ -100,3 +100,11 @@ Friday September 18th
 - Current project status: the ESP32 software plan is ready to begin, while lidar testing remains paused until the replacement board arrives.
 
 Imma stop updating it cuz its mad annoying yo
+
+
+
+Sources for photos 
+Monocular Depth Estimation with Depth Anything V2
+How do neural networks learn to estimate depth from 2D images?
+https://towardsdatascience.com/monocular-depth-estimation-with-depth-anything-v2-54b6775abc9f/
+
