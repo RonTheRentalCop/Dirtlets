@@ -15,3 +15,9 @@ How fast can I make it go without crashing into things
 How can I make it crash safe for the electronics inside as well as make it weather proof
 
 I could use depth anything on an rub camera to take the stream of video from my rover to my main pc over wifi and I then can feed it back directions automatically by my program
+
+
+
+
+
+My python could use some refreshing I feel like I am having a bit of a time remembering the fundementals. SOOOOOo this means I just have ot buy The Farmer was Replaced on Steam definitly not because I js want to get a new game.

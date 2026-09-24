@@ -33,13 +33,34 @@ With this Dev Board we will want to
 <img src="Photos/Screenshot 2026-09-22 at 9.14.26 AM.png" width="600">
 
 ## Using the Boards
-1. To start ysing the ESP32 we need to install the Arduino IDE or PlatformIO
-2. Then we need to add the ESP32 board package
-3. Upload a Blink Program (basic program to check if the board is alive)
-4. Open Serial Monitor and print the sensor values
-5. Connect the motor driver with the wheels lifted off the table
-6. Test one motor forward, stop, and reverse.
-7. You could add communication timeouts that stops the motors if the commands are not arriving for whatever reason
+1. The boards already use MicroPython, so I am not using the Arduino IDE or ESP-IDF for the active firmware.
+2. The Mac uses `mpremote` to send Python files to the board over USB without erasing MicroPython.
+3. The motor-controller files are in `firmware/micropython/motor_controller/`.
+4. `config.py` is where I change the Wi-Fi settings, GPIO pins, light pins, UDP port, and motor timeout.
+5. `main.py` starts the Wi-Fi, motors, lights, UDP receiver, and safety timeout.
+6. I test the lights separately before testing the motor driver.
+7. The motor driver should be tested with the wheels lifted off the table.
+
+The Mac setup uses a project `requirements.txt` with `mpremote`. From the project folder I can install it with:
+
+```sh
+./.venv/bin/python -m pip install -r requirements.txt
+```
+
+After plugging in the board, I find its serial port with:
+
+```sh
+ls /dev/cu.*
+```
+
+The current board showed up as `/dev/cu.usbserial-1220`. I upload the motor-controller files with:
+
+```sh
+cd firmware/micropython/motor_controller
+./upload.sh /dev/cu.usbserial-1220
+```
+
+This uploads the Python files and resets the MicroPython program. It does not erase the board or install a different firmware.
 
 For example some motor commands could be
 -
@@ -49,9 +70,36 @@ For example some motor commands could be
 - LEFT 80
 - RIGHT 80
 
-Then we will want to test over network so the easiest waty will be hosting a simple web sever from your computer and send requests
+Then we will want to test over the network. The first working connection uses UDP instead of a web server.
 
 Do not use these requests for the whole project witch to UDP MQTT or websockets for a more structured prototcol
+
+The current UDP commands are:
+
+```text
+STOP
+DRIVE 250 250
+DRIVE -250 -250
+DRIVE 250 -250
+```
+
+The values go from `-1000` to `1000`. If the board does not receive a valid command for 500 milliseconds, it stops both motors and disables the TB6612FNG standby pin. This is important because losing Wi-Fi should not leave the rover driving.
+
+## Testing the Lights
+
+The light test is separate from the main motor program. The configured light pins are in `config.py`:
+
+```python
+TEST_LIGHT_PINS = [2]
+```
+
+I can add more verified LED GPIO pins to that list. From the motor-controller folder I run:
+
+```sh
+mpremote connect /dev/cu.usbserial-1220 run Board_Test.py
+```
+
+This flashes the configured lights quickly and turns them off when I press `Ctrl-C`. It does not replace `main.py`.
 
 ## Start the ESP 32 Cam Seperately 
 1. First we need to just confirm if it works

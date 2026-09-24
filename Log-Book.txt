@@ -101,6 +101,19 @@ Friday September 18th
 
 Imma stop updating it cuz its mad annoying yo
 
+Thursday September 24th
+- I switched the active ESP32 firmware over to MicroPython because that is what the boards already have installed and I do not know C yet.
+- I removed the unused ESP-IDF C motor-controller project instead of keeping two different firmware paths around to confuse me.
+- Set up the MicroPython motor controller for the ESP32-WROOM-32E and TB6612FNG motor driver.
+- Added `main.py` to start the board, connect to Wi-Fi, receive UDP commands, control the motors, and stop the motors if commands stop arriving.
+- Added `config.py` so I can change Wi-Fi, GPIO pins, UDP settings, motor timeout, and light pins without rewriting the rest of the program.
+- Added `motor.py` for PWM motor control, `udp_control.py` for the UDP commands, and `lights.py` for the status light.
+- Added a temporary setup Wi-Fi access point called `Dirtlets-Motor` so the board can still be tested before I put in normal Wi-Fi credentials.
+- Installed `mpremote` in the project Python environment and used it to upload the MicroPython files to `/dev/cu.usbserial-1220` without erasing MicroPython.
+- Added `Board_Test.py` to make the configured lights flash rapidly. It can be run directly from the Mac without replacing `main.py`.
+- Added `requirements.txt` with the `mpremote` dependency and updated the ESP32 documentation with the actual upload and light-test commands.
+- The current firmware is only on the motor-controller board. The ESP32-CAM still needs its exact board model and pin map confirmed before I write its MicroPython camera program.
+
 
 
 Sources for photos 
