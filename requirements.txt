@@ -1,0 +1,2 @@
+# Mac-side tool for uploading and managing MicroPython files on the ESP32.
+mpremote==1.29.0
