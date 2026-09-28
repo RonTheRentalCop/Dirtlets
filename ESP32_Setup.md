@@ -53,7 +53,7 @@ After plugging in the board, I find its serial port with:
 ls /dev/cu.*
 ```
 
-The current board showed up as `/dev/cu.usbserial-1220`. I upload the motor-controller files with:
+The board has showed up as `/dev/cu.usbserial-1230`. The serial port can change, so I check `ls /dev/cu.*` again if that one is missing. I upload the motor-controller files with:
 
 ```sh
 cd firmware/micropython/motor_controller
@@ -83,7 +83,30 @@ DRIVE -250 -250
 DRIVE 250 -250
 ```
 
-The values go from `-1000` to `1000`. If the board does not receive a valid command for 500 milliseconds, it stops both motors and disables the TB6612FNG standby pin. This is important because losing Wi-Fi should not leave the rover driving.
+The values go from `-1000` to `1000`. If the board does not receive a valid command for 500 milliseconds, it sets both motor PWM outputs to zero. STBY is wired to 3V3, so the code does not disable that pin when stopping.
+
+## Current Wiring Map
+
+The current ESP32-WROOM-32E and TB6612FNG connections are:
+
+| TB6612FNG signal | ESP32 connection |
+| --- | --- |
+| PWMA | GPIO 25 |
+| AIN1 | GPIO 26 |
+| AIN2 | GPIO 27 |
+| PWMB | GPIO 14 |
+| BIN1 | GPIO 12 |
+| BIN2 | GPIO 13 |
+| STBY | 3V3 |
+| VCC (logic) | 3V3 |
+| VM (motor supply) | Battery positive, within the driver and motor ratings |
+| GND | ESP32 GND and battery negative tied together |
+| AO1/AO2 | Left motor |
+| BO1/BO2 | Right motor |
+
+The MPU-650 is powered from 3V3 and uses SDA on GPIO 21 and SCL on GPIO 22. XDA, XCL, ADO, and INT are not connected yet. The pin values are in `firmware/micropython/motor_controller/config.py`; the MPU-650 reading code still needs to be written.
+
+GPIO 12 is a boot-strapping pin on the classic ESP32. If the board fails to boot with BIN1 connected, check whether the driver board pulls GPIO 12 high during reset. STBY is connected directly to 3V3, so software stops motion by setting PWM to zero rather than switching the driver to standby.
 
 ## Testing the Lights
 
@@ -118,4 +141,90 @@ This flashes the configured lights quickly and turns them off when I press `Ctrl
 - Test LiPo wiring carefully and never leave exposed conductors near each other.
 - The ESP32-CAM may require an external USB-to-serial programmer for uploading code.
 - Some ESP32-CAM pins are already used by the camera or flash, so pin selection matters.
-- Also make sure your boards all work I wasted time coding test scripts just to realize the first thing in the manual is if the light does not turn on when plugged in = the board is dead
+- Also make sure your boards all work I wasted time coding test scripts just to realize the first thing in the manual is if the light does not turn on when plugged in = the board is deed
+
+Assuming the driver is a **TB6612FNG** dual motor driver, here’s the full start-to-finish checklist.
+
+### 1. Gather everything
+- ESP32 board
+- TB6612FNG motor driver
+- 2 DC motors
+- External motor battery/power supply
+- Jumper wires
+- Common ground wire
+
+### 2. Power off
+- Unplug USB
+- Turn off battery
+- Don’t wire while powered
+
+### 3. Make common ground first
+- ESP32 **GND** → TB6612 **GND**
+- Battery **negative (-)** → same TB6612 **GND**
+- All grounds must be connected together
+
+### 4. Logic power
+- ESP32 **3.3V** → TB6612 **VCC**
+- Do **not** power motors from the ESP32
+
+### 5. Motor power
+- Battery **positive (+)** → TB6612 **VM**
+- Battery **negative (-)** → common **GND**
+- VM is the motor voltage, usually 6V–12V depending on motors
+
+### 6. ESP32 to TB6612 control wires
+Example safe pin map:
+
+- ESP32 **GPIO 25** → TB6612 **PWMA**
+- ESP32 **GPIO 26** → TB6612 **AIN1**
+- ESP32 **GPIO 27** → TB6612 **AIN2**
+- ESP32 **GPIO 14** → TB6612 **PWMB**
+- ESP32 **GPIO 18** → TB6612 **BIN1**
+- ESP32 **GPIO 19** → TB6612 **BIN2**
+- ESP32 **GPIO 23** → TB6612 **STBY**
+
+Important:
+- **STBY must be HIGH** or the motors will not run
+- PWMA/PWMB control speed
+- AIN1/AIN2 control Motor A direction
+- BIN1/BIN2 control Motor B direction
+
+### 7. Connect motors
+- Motor A → TB6612 **AO1** and **AO2**
+- Motor B → TB6612 **BO1** and **BO2**
+- If a motor spins backward, swap that motor’s two wires
+
+### 8. Code setup
+- Set all control pins as `OUTPUT`
+- Set **STBY HIGH**
+- Use PWM on **PWMA** and **PWMB**
+- Direction example:
+  - Forward: AIN1 HIGH, AIN2 LOW
+  - Reverse: AIN1 LOW, AIN2 HIGH
+  - Stop: PWM = 0
+- Same idea for BIN1/BIN2
+
+### 9. Test order
+- Upload code first
+- Connect USB/ESP32 power
+- Turn on motor battery
+- Set STBY HIGH
+- Send low PWM speed first
+- Check each motor separately
+- Then test both together
+
+### 10. If it doesn’t work
+- Check common ground
+- Check STBY is HIGH
+- Check VM has battery voltage
+- Check VCC has 3.3V
+- Check PWM pin is correct
+- Check motor wires in AO1/AO2 or BO1/BO2
+- If ESP32 resets, use separate motor power and add a capacitor across VM/GND
+
+### 11. Shutdown order
+- Stop motors in code
+- Turn off motor battery
+- Unplug ESP32 USB/power
+
+That’s the whole chain: **ESP32 → TB6612FNG → motors**, with power and ground included.rem

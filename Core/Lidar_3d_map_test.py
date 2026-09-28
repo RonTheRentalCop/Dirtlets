@@ -74,7 +74,6 @@ def lidar_point_to_world(distance_mm: float, angle_deg: float,
     th = math.radians(angle_deg)
     p = math.radians(pitch_deg * mount.sign)
 
-    # 1. Point in LiDAR body frame.
     bx, by, bz = r * math.cos(th), r * math.sin(th), 0.0
 
     ox, oy, oz = mount.offset_m
