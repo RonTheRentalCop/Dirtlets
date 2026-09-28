@@ -7,17 +7,23 @@ SETUP_AP_SSID = "Dirtlets-Motor"
 UDP_PORT = 3333
 COMMAND_TIMEOUT_MS = 500
 
-# TB6612FNG pins for the ESP32-WROOM-32E. Verify before powering motors.
+# Confirmed ESP32-WROOM-32E to TB6612FNG wiring.
 MOTOR_A_PWM = 25
-MOTOR_A_IN1 = 27
-MOTOR_A_IN2 = 14
-MOTOR_B_PWM = 26
-MOTOR_B_IN1 = 32
-MOTOR_B_IN2 = 4
-MOTOR_STBY = 33
+MOTOR_A_IN1 = 26
+MOTOR_A_IN2 = 27
+MOTOR_B_PWM = 14
+MOTOR_B_IN1 = 18
+MOTOR_B_IN2 = 19
+MOTOR_STBY_GPIO = None  # STBY is wired directly to 3V3.
 
-PWM_FREQUENCY_HZ = 20000
+PWM_FREQUENCY_HZ = 1000
+PWM_DUTY_MAX = 1023
 PWM_MAX = 65535
+
+# MPU-650 I2C wiring. XDA, XCL, ADO, and INT are not connected yet.
+I2C_SDA_PIN = 21
+I2C_SCL_PIN = 22
+I2C_FREQUENCY_HZ = 400000
 
 # Common onboard LED on ESP32 DevKit boards. Set to None to disable.
 STATUS_LED_PIN = 2

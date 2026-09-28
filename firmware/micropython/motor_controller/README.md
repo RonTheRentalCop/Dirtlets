@@ -10,6 +10,24 @@ This is the active firmware path for the ESP32-WROOM-32E. It uploads Python file
 - `udp_control.py`: UDP commands and automatic timeout stop
 - `lights.py`: status-light control
 
+## Current Wiring
+
+The current pin assignments are stored in `config.py`:
+
+| TB6612FNG signal | ESP32 GPIO |
+| --- | ---: |
+| PWMA | 25 |
+| AIN1 | 26 |
+| AIN2 | 27 |
+| PWMB | 14 |
+| BIN1 | 12 |
+| BIN2 | 13 |
+| STBY | 3V3 |
+
+The MPU-650 wiring is SDA to GPIO 21 and SCL to GPIO 22. VCC is 3V3 and all grounds are common. The other MPU-650 pins XDA, XCL, ADO, and INT are not connected yet; sensor-reading code is not added yet.
+
+GPIO 12 is an ESP32 boot-strapping pin. If the board stops booting after wiring BIN1, check whether the TB6612 board is pulling GPIO 12 high during reset. The firmware currently keeps STBY high because it is wired directly to 3V3, so a software stop sets both motor PWM outputs to zero but does not electrically disable the driver.
+
 ## Install the files
 
 `mpremote` is installed on this Mac. On another computer, install it with:
@@ -51,7 +69,7 @@ DRIVE -250 -250
 DRIVE 250 -250
 ```
 
-Commands are signed from `-1000` to `1000`. If no valid command arrives for `500 ms`, both motors stop and TB6612FNG standby is disabled.
+Commands are signed from `-1000` to `1000`. If no valid command arrives for `500 ms`, both motor PWM outputs are set to zero. STBY remains high because it is wired directly to 3V3.
 
 ## Adding features
 
@@ -72,3 +90,11 @@ mpremote connect /dev/cu.usbserial-XXXX run Board_Test.py
 ```
 
 Stop it with `Ctrl-C`; the script turns the configured lights off when it exits.
+
+## Motor test
+
+Secure the rover with all wheels lifted and verify the GPIO wiring before running this test. It tests each motor forward and reverse separately at 25% command, then runs both forward briefly. The test sets both PWM outputs to zero when finished or interrupted. If `STBY` is tied high, it remains enabled, but zero PWM stops motor drive.
+
+```sh
+mpremote connect /dev/cu.usbserial-XXXX run Motor_Test.py
+```

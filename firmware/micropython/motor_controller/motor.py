@@ -5,53 +5,56 @@ import config
 
 class MotorController:
     def __init__(self):
-        self._standby = Pin(config.MOTOR_STBY, Pin.OUT, value=0)
-        self._left_in1 = Pin(config.MOTOR_A_IN1, Pin.OUT, value=0)
-        self._left_in2 = Pin(config.MOTOR_A_IN2, Pin.OUT, value=0)
-        self._right_in1 = Pin(config.MOTOR_B_IN1, Pin.OUT, value=0)
-        self._right_in2 = Pin(config.MOTOR_B_IN2, Pin.OUT, value=0)
-        self._left_pwm = PWM(Pin(config.MOTOR_A_PWM), freq=config.PWM_FREQUENCY_HZ)
-        self._right_pwm = PWM(Pin(config.MOTOR_B_PWM), freq=config.PWM_FREQUENCY_HZ)
+        self.ain1 = Pin(config.MOTOR_A_IN1, Pin.OUT, value=0)
+        self.ain2 = Pin(config.MOTOR_A_IN2, Pin.OUT, value=0)
+        self.bin1 = Pin(config.MOTOR_B_IN1, Pin.OUT, value=0)
+        self.bin2 = Pin(config.MOTOR_B_IN2, Pin.OUT, value=0)
+        self.pwma = PWM(Pin(config.MOTOR_A_PWM), freq=config.PWM_FREQUENCY_HZ)
+        self.pwmb = PWM(Pin(config.MOTOR_B_PWM), freq=config.PWM_FREQUENCY_HZ)
+
+        self.standby = None
+        if config.MOTOR_STBY_GPIO is not None:
+            self.standby = Pin(config.MOTOR_STBY_GPIO, Pin.OUT, value=0)
+
         self.stop()
 
     @staticmethod
-    def _bound(value):
-        if value > 1000:
+    def _bounded_speed(speed):
+        if speed > 1000:
             return 1000
-        if value < -1000:
+        if speed < -1000:
             return -1000
-        return value
+        return speed
 
     @staticmethod
-    def _set_direction(in1, in2, pwm, command):
-        command = MotorController._bound(command)
-        if command == 0:
-            in1.value(0)
-            in2.value(0)
-            pwm.duty_u16(0)
-            return
-
-        if command > 0:
+    def _set_motor(in1, in2, pwm, speed):
+        speed = MotorController._bounded_speed(speed)
+        if speed > 0:
             in1.value(1)
             in2.value(0)
-        else:
+        elif speed < 0:
             in1.value(0)
             in2.value(1)
+        else:
+            in1.value(0)
+            in2.value(0)
 
-        duty = abs(command) * config.PWM_MAX // 1000
-        pwm.duty_u16(duty)
+        duty = abs(speed) * config.PWM_DUTY_MAX // 1000
+        pwm.duty(duty)
 
-    def set(self, left, right):
-        self._standby.value(1)
-        self._set_direction(self._left_in1, self._left_in2, self._left_pwm, left)
-        self._set_direction(self._right_in1, self._right_in2, self._right_pwm, right)
+    def set(self, left_speed, right_speed):
+        if self.standby is not None:
+            self.standby.value(1)
+        self._set_motor(self.ain1, self.ain2, self.pwma, left_speed)
+        self._set_motor(self.bin1, self.bin2, self.pwmb, right_speed)
 
     def stop(self):
-        self._set_direction(self._left_in1, self._left_in2, self._left_pwm, 0)
-        self._set_direction(self._right_in1, self._right_in2, self._right_pwm, 0)
-        self._standby.value(0)
+        self._set_motor(self.ain1, self.ain2, self.pwma, 0)
+        self._set_motor(self.bin1, self.bin2, self.pwmb, 0)
+        if self.standby is not None:
+            self.standby.value(0)
 
     def deinit(self):
         self.stop()
-        self._left_pwm.deinit()
-        self._right_pwm.deinit()
+        self.pwma.deinit()
+        self.pwmb.deinit()

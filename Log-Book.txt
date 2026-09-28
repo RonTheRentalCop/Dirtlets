@@ -113,7 +113,23 @@ Thursday September 24th
 - Added `Board_Test.py` to make the configured lights flash rapidly. It can be run directly from the Mac without replacing `main.py`.
 - Added `requirements.txt` with the `mpremote` dependency and updated the ESP32 documentation with the actual upload and light-test commands.
 - The current firmware is only on the motor-controller board. The ESP32-CAM still needs its exact board model and pin map confirmed before I write its MicroPython camera program.
+- Updated the ESP32 pin map after changing the wiring: MPU-650 SDA/SCL use GPIO 21/22, and the TB6612FNG uses PWMA 25, AIN1/2 26/27, PWMB 14, and BIN1/2 12/13.
+- Connected TB6612FNG STBY to 3V3, so the motor code stops by setting PWM to zero; it does not switch STBY low.
+- Kept the grounds common between the ESP32 and battery negative, with logic VCC on 3V3 and motor VM on the battery supply.
+- Noted that GPIO 12 is an ESP32 boot-strapping pin and could affect startup if the motor-driver circuit pulls it high during reset.
 
+Sunday September 27th
+- Hit the exact GPIO 12 problem noted earlier: a ground wire was miswired into GPIO 12 instead of GND, which sent the ESP32 into a boot loop (repeated RTCWDT_RTC_RESET with invalid flash header) instead of running MicroPython.
+- Fixed the wiring so ground goes to GND instead of GPIO 12, and the board booted normally again.
+- Moved Motor B's direction pins off GPIO 12/13 and onto GPIO 18/19 to avoid the boot-strapping pin entirely going forward.
+- Confirmed TB6612FNG STBY is wired directly to 3V3, not a GPIO, so `MOTOR_STBY_GPIO` stays `None` in `config.py`.
+- Final working pin map: PWMA GPIO 25, AIN1/2 GPIO 26/27, PWMB GPIO 14, BIN1/2 GPIO 18/19, STBY tied to 3V3.
+- Ran `Motor_Test.py` at 60% PWM after the fix and confirmed both motors actually spin in both directions with the wheels lifted.
+- Added the steering motor onto the TB6612's previously unused Motor B channel (GPIO 14/18/19) while the drive motor stayed on Motor A (GPIO 25/26/27) in the same place as before.
+- First successful test of the drive motor and steering motor working together in `Motor_Test.py`: drive forward/reverse, steering left/right, and drive at full power for 5 seconds all ran and moved the hardware correctly.
+
+Monday September 28th
+- First lidar-on-vehicle test planned: mount and run the RPLIDAR on the actual rover chassis instead of on the bench.
 
 
 Sources for photos 
