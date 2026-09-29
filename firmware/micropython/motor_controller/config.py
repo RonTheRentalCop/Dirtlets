@@ -20,6 +20,14 @@ PWM_FREQUENCY_HZ = 1000
 PWM_DUTY_MAX = 1023
 PWM_MAX = 65535
 
+# Motor protection. The 3S LiPo is 12.6 V when full, so 60% is roughly 7.5 V at the motor.
+# Drop these to 50 if the motors are rated for 6 V.
+MOTOR_A_MAX_PERCENT = 60  # rear drive
+MOTOR_B_MAX_PERCENT = 60  # front steering
+RAMP_MS_ZERO_TO_FULL = 300  # shortest time to go from stopped to the speed cap
+REVERSE_PAUSE_MS = 100  # hold at zero before a motor changes direction
+RAMP_TICK_MS = 20
+
 # MPU-650 I2C wiring. XDA, XCL, ADO, and INT are not connected yet.
 I2C_SDA_PIN = 21
 I2C_SCL_PIN = 22

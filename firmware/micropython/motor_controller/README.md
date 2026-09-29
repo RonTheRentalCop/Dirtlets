@@ -20,13 +20,13 @@ The current pin assignments are stored in `config.py`:
 | AIN1 | 26 |
 | AIN2 | 27 |
 | PWMB | 14 |
-| BIN1 | 12 |
-| BIN2 | 13 |
+| BIN1 | 18 |
+| BIN2 | 19 |
 | STBY | 3V3 |
 
 The MPU-650 wiring is SDA to GPIO 21 and SCL to GPIO 22. VCC is 3V3 and all grounds are common. The other MPU-650 pins XDA, XCL, ADO, and INT are not connected yet; sensor-reading code is not added yet.
 
-GPIO 12 is an ESP32 boot-strapping pin. If the board stops booting after wiring BIN1, check whether the TB6612 board is pulling GPIO 12 high during reset. The firmware currently keeps STBY high because it is wired directly to 3V3, so a software stop sets both motor PWM outputs to zero but does not electrically disable the driver.
+The firmware currently keeps STBY high because it is wired directly to 3V3, so a software stop sets both motor PWM outputs to zero but does not electrically disable the driver.
 
 ## Install the files
 
