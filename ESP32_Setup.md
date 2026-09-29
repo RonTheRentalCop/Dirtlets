@@ -95,8 +95,8 @@ The current ESP32-WROOM-32E and TB6612FNG connections are:
 | AIN1 | GPIO 26 |
 | AIN2 | GPIO 27 |
 | PWMB | GPIO 14 |
-| BIN1 | GPIO 12 |
-| BIN2 | GPIO 13 |
+| BIN1 | GPIO 18 |
+| BIN2 | GPIO 19 |
 | STBY | 3V3 |
 | VCC (logic) | 3V3 |
 | VM (motor supply) | Battery positive, within the driver and motor ratings |
@@ -106,7 +106,7 @@ The current ESP32-WROOM-32E and TB6612FNG connections are:
 
 The MPU-650 is powered from 3V3 and uses SDA on GPIO 21 and SCL on GPIO 22. XDA, XCL, ADO, and INT are not connected yet. The pin values are in `firmware/micropython/motor_controller/config.py`; the MPU-650 reading code still needs to be written.
 
-GPIO 12 is a boot-strapping pin on the classic ESP32. If the board fails to boot with BIN1 connected, check whether the driver board pulls GPIO 12 high during reset. STBY is connected directly to 3V3, so software stops motion by setting PWM to zero rather than switching the driver to standby.
+STBY is connected directly to 3V3, so software stops motion by setting PWM to zero rather than switching the driver to standby.
 
 ## Testing the Lights
 

@@ -7,7 +7,7 @@ if [[ $# -ne 1 ]]; then
 fi
 
 board_port="$1"
-files=(config.py lights.py motor.py udp_control.py main.py)
+files=(config.py lights.py motor.py udp_control.py wifi.py main.py)
 for file in $files; do
     mpremote connect "$board_port" fs cp "$file" ":$file"
 done
