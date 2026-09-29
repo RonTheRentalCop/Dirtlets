@@ -227,4 +227,4 @@ Important:
 - Turn off motor battery
 - Unplug ESP32 USB/power
 
-That’s the whole chain: **ESP32 → TB6612FNG → motors**, with power and ground included.rem
+That’s the whole chain: **ESP32 → TB6612FNG → motors**, with power and ground included.rems
