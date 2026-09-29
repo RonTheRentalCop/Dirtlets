@@ -1,7 +1,7 @@
 # Edit this file for your board and local Wi-Fi.
 
-WIFI_SSID = "CHANGE_ME"
-WIFI_PASSWORD = "CHANGE_ME"
+WIFI_SSID = "Lula land"
+WIFI_PASSWORD = "4kids2dogs2parents"
 SETUP_AP_SSID = "Dirtlets-Motor"
 
 UDP_PORT = 3333
@@ -31,3 +31,13 @@ STATUS_LED_ACTIVE_HIGH = True
 
 # Add other LED GPIO numbers here when they are wired and verified.
 TEST_LIGHT_PINS = [STATUS_LED_PIN]
+
+# RPLIDAR C1 wiring. Motor spins automatically once powered; no motor-control GPIO needed.
+LIDAR_UART_ID = 2
+LIDAR_TX_PIN = 32  # ESP32 TX -> RPLIDAR RX (green)
+LIDAR_RX_PIN = 33  # ESP32 RX -> RPLIDAR TX (yellow)
+LIDAR_BAUD_RATE = 460800
+LIDAR_SECTOR_COUNT = 16  # 360 / 16 = 22.5 degrees per sector; sector 0 is assumed to face forward.
+
+# Port the host listens on for lidar sector telemetry sent from the board.
+TELEMETRY_PORT = 3334

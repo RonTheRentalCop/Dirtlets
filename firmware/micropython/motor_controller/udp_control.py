@@ -13,6 +13,7 @@ class CommandReceiver:
         self._socket.bind(("0.0.0.0", config.UDP_PORT))
         self._socket.settimeout(0.05)
         self._last_command_ms = time.ticks_ms()
+        self.last_sender_ip = None
 
     @staticmethod
     def _parse(message):
@@ -46,6 +47,7 @@ class CommandReceiver:
         if command is None:
             return
 
+        self.last_sender_ip = address[0]
         self._motor_controller.set(command[0], command[1])
         self._last_command_ms = time.ticks_ms()
         self._status_light.on()
