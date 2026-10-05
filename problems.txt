@@ -121,6 +121,9 @@ https://a.co/d/0jayhnrd
 
 
 
+How will I stop the robot from tumbling down stairs and drops when lidar and esp cam. Will they cut it?
+How will the Treads Impact the design vs wheeled?
+
 
 
 
