@@ -100,3 +100,35 @@ Prototype design revision:
 The original tracked design is still important to the long-term planetary rover concept, but the first prototype should pivot to a larger wheeled platform. The tracked version has been difficult to build because I do not have the right materials for reliable treads, and the first chassis was too small to adapt for larger treads that would make land traversal easier. The wheeled chassis should also make it easier to route telemetry wiring, separate power and signal electronics, and provide enough protected space for waterproofing and weatherproofing. The larger platform is needed because the electronics require more room than the original chassis provided.
 
 I recorded first clips for yt video I should post it this weekend
+
+
+
+I cannot create the 3d map with a 2d camera so I need to get a smart servo to feed position feedback to my board so I can calculate the relative positions
+
+https://www.amazon.com/FEETECH-Programmable-Magnetic-Continuous-Industrial/dp/B0FMY17QRT/ref=sr_1_2?crid=3O7NUPVABYC77&dib=eyJ2IjoiMSJ9.JMYiao0Uek1oWZ_imRFARG7qip8mF1R4IpKGeitnBjA.w3B02EBouOPAlDLpvzmCBmE2LUb_uhJ7GH1V82ynFhI&dib_tag=se&keywords=Feetech%2BSTS3032&qid=1790705967&sprefix=feetech%2Bsts3032%2Caps%2C222&sr=8-2&th=1
+
+Serial Bus controller
+https://a.co/d/0501hVBp
+
+New Motor driver
+https://a.co/d/0hsKVind
+
+More ESP 32 Es 
+https://a.co/d/0hmAcfhw
+
+ESP Expanstion board
+https://a.co/d/0jayhnrd
+
+
+
+
+
+
+
+
+Home Lab Stuff
+Large LCD Screen W Case
+https://a.co/d/05xbFa8A
+
+10 inch mini server rack
+https://a.co/d/0dTguyt9
