@@ -124,14 +124,7 @@ https://a.co/d/0jayhnrd
 How will I stop the robot from tumbling down stairs and drops when lidar and esp cam. Will they cut it?
 How will the Treads Impact the design vs wheeled?
 
+Update I got the parts in and I have to restart progress on the rover. The cost has risen as I had to get specialized smart servos in order to complete slam mapping correctly
+The new motor controller seems to be doing well and is much stronger than its last counterpart.
 
-
-
-
-
-Home Lab Stuff
-Large LCD Screen W Case
-https://a.co/d/05xbFa8A
-
-10 inch mini server rack
-https://a.co/d/0dTguyt9
+Added new photo and video updates to the github. I still need to intigrate them into the read me and the setup/construction mds 
