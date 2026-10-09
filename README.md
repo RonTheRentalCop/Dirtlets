@@ -17,6 +17,8 @@ Dirtlets are little robots designed to autonomously navigate, map, and record en
 
 - [MicroPython Firmware](firmware/micropython/motor_controller/README.md): how to upload the active motor-controller files, send UDP commands, and run the light test.
 
+- [Depth Nav](Core/depth-nav/README.md): camera-only obstacle avoidance using an AI depth model, a trainer GUI, and the recorded training dataset.
+
 - [Log Book](Log-Book.txt): dated project progress and decisions. More professional logging of information and direction than my problems file. 
 
 - [Photos](Photos): All photos used in various documentation surrounding the project
