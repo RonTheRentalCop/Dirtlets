@@ -2,22 +2,10 @@
 # AI help was limited to small scripting mistakes and troubleshooting
 # while fixing shorted electronics. The code and design are my own.
 
-"""
-Depth navigation trainer.
-
-Teach the navigator by example: while the camera runs, click (or press) the box
-you would steer toward. Each click saves the current depth map with that label.
-Hit "Train model", then switch to Drive and it picks boxes on its own.
-
-Boxes 1-10 are steering directions, far left to far right. BACK means reverse.
-
-Keyboard:  1-9, 0 (=10) pick a box   B = back   Space = toggle continuous recording
-
-Run from Terminal.app (it needs camera permission):
-    .venv/bin/python trainer_gui.py
-"""
-
+import argparse
+import socket
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -29,33 +17,32 @@ from PySide6.QtGui import QColor, QImage, QPixmap
 from PySide6.QtWidgets import (
     QApplication, QButtonGroup, QCheckBox, QComboBox, QGridLayout, QHBoxLayout,
     QLabel, QLineEdit, QMainWindow, QMessageBox, QPushButton, QRadioButton,
-    QVBoxLayout, QWidget,
+    QSlider, QVBoxLayout, QWidget,
 )
 
-from depth_nav import Debouncer, DepthEstimator
+from depth_nav import Debouncer, DepthEstimator, FrameSource
 
 N_BOXES = 10
-SMOOTHING = 0.85  # how much each frame keeps from previous frames (higher = steadier, slower)
-HOLD_FRAMES = 4   # a new direction must win this many frames in a row before it's used
-BACK = N_BOXES  # class index for the backwards box
+SMOOTHING = 0.85
+HOLD_FRAMES = 4
+BACK = N_BOXES
 LABELS = [str(i + 1) for i in range(N_BOXES)] + ["BACK"]
 
 DATA_DIR = Path(__file__).parent / "data"
 DATASET_PATH = DATA_DIR / "dataset.npz"
 MODEL_PATH = DATA_DIR / "model.joblib"
 
-BAND = (0.25, 0.85)  # vertical slice of the frame used for steering
-GRID = (20, 12)      # depth map is shrunk to this many cells for the model
+BAND = (0.25, 0.85)
+GRID = (20, 12)
 
 
 def box_color(i):
     if i == BACK:
         return QColor("#e5484d")
-    # Rainbow from blue (far left) through green to orange (far right)
     return QColor.fromHsv(int(220 - i * 22), 190, 235)
 
+
 def column_scores(closeness):
-    """How open each of the 10 columns is: 1 = far / clear, 0 = something close."""
     h = closeness.shape[0]
     band = closeness[int(h * BAND[0]): int(h * BAND[1])]
     cols = np.array_split(band, N_BOXES, axis=1)
@@ -67,8 +54,20 @@ def features(closeness):
     return np.concatenate([small, column_scores(closeness)]).astype(np.float32)
 
 
+def mirror(X, y):
+    cells = GRID[0] * GRID[1]
+    grid = X[:, :cells].reshape(-1, GRID[1], GRID[0])[:, :, ::-1].reshape(-1, cells)
+    cols = X[:, cells:][:, ::-1]
+    y_m = np.where(y == BACK, BACK, N_BOXES - 1 - y)
+    return np.hstack([grid, cols]), y_m
+
+
+def with_mirrored(X, y):
+    Xm, ym = mirror(X, y)
+    return np.vstack([X, Xm]), np.concatenate([y, ym])
+
+
 def rule_based_choice(scores, block=0.25, forward_bias=0.05):
-    """Fallback before a model is trained: head for the most open column."""
     best = int(np.argmax(scores))
     if scores[best] < block:
         return BACK
@@ -77,6 +76,7 @@ def rule_based_choice(scores, block=0.25, forward_bias=0.05):
     if scores[c] >= scores[best] - forward_bias:
         return c
     return best
+
 
 class Output:
     def send(self, choice): ...
@@ -94,7 +94,6 @@ class PrintOutput(Output):
 
 
 class KeyOutput(Output):
-    """Holds W/A/S/D combos: outer boxes turn in place, inner boxes turn while moving."""
     KEYMAP = {0: {"a"}, 1: {"a"}, 2: {"w", "a"}, 3: {"w", "a"}, 4: {"w"}, 5: {"w"},
               6: {"w", "d"}, 7: {"w", "d"}, 8: {"d"}, 9: {"d"}, BACK: {"s"}}
 
@@ -116,7 +115,6 @@ class KeyOutput(Output):
 
 
 class SerialOutput(Output):
-    """Sends one byte when the choice changes: '0'-'9' for boxes 1-10, 'B' back, 'S' stop."""
 
     def __init__(self, port, baud=115200):
         import serial
@@ -133,38 +131,104 @@ class SerialOutput(Output):
         self.ser.write(b"S")
         self.ser.close()
 
+
+def box_to_drive(choice, speed, max_steer):
+    if choice == BACK:
+        return -speed, 0
+    t = (choice - (N_BOXES - 1) / 2) / ((N_BOXES - 1) / 2)
+    return round(speed * (1 - 0.4 * abs(t))), round(t * max_steer)
+
+
+class UdpOutput(Output):
+    PORT = 3333
+    RATE_HZ = 10
+    STALE_S = 0.3
+
+    def __init__(self, host, speed=150, max_steer=300):
+        if not host:
+            raise ValueError("Enter the motor board's IP address")
+        self.addr = (socket.gethostbyname(host), self.PORT)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.speed, self.max_steer = speed, max_steer
+        self.choice, self.updated = None, 0.0
+        self.lock = threading.Lock()
+        self.running = True
+        self.last_message = ""
+        self.thread = threading.Thread(target=self._loop, daemon=True)
+        self.thread.start()
+
+    def send(self, choice):
+        with self.lock:
+            self.choice, self.updated = choice, time.time()
+
+    def message(self):
+        with self.lock:
+            choice, age = self.choice, time.time() - self.updated
+        if choice is None or age > self.STALE_S:
+            return "STOP"
+        drive, steer = box_to_drive(choice, self.speed, self.max_steer)
+        return f"DRIVE {drive} {steer}"
+
+    def _loop(self):
+        while self.running:
+            self.last_message = self.message()
+            self.sock.sendto(self.last_message.encode("ascii"), self.addr)
+            time.sleep(1 / self.RATE_HZ)
+
+    def close(self):
+        self.running = False
+        self.thread.join(1)
+        for _ in range(3):
+            self.sock.sendto(b"STOP", self.addr)
+        self.sock.close()
+
+
 class DepthWorker(QThread):
-    frame_ready = Signal(object, object)  # (rgb frame, closeness map)
+    frame_ready = Signal(object, object)
     status = Signal(str)
 
-    def __init__(self, camera=0, width=518):
+    estimator = None
+
+    def __init__(self, camera="0", width=518):
         super().__init__()
         self.camera, self.width = camera, width
         self.running = True
 
     def run(self):
-        self.status.emit("Loading depth model...")
-        depth = DepthEstimator()
-        cap = cv2.VideoCapture(self.camera)
-        if not cap.isOpened():
-            self.status.emit("Camera not available. Allow camera access for Terminal in "
-                             "System Settings > Privacy & Security > Camera, then restart.")
+        if DepthWorker.estimator is None:
+            self.status.emit("Loading depth model...")
+            DepthWorker.estimator = DepthEstimator()
+        self.status.emit(f"Connecting to camera {self.camera}...")
+        cap = FrameSource(self.camera)
+        if not cap.ok:
+            if cap.is_stream:
+                self.status.emit(f"Can't reach {self.camera}. Is the ESP32-CAM powered and on the same Wi-Fi?")
+            else:
+                self.status.emit("Camera not available. Allow camera access for Terminal in "
+                                 "System Settings > Privacy & Security > Camera, then restart.")
             return
-        self.status.emit("Running")
+        self.status.emit(f"Running on camera {self.camera}")
+        waiting = False
         while self.running:
-            ok, frame = cap.read()
-            if not ok:
-                time.sleep(0.05)
+            frame = cap.read(timeout=0.5)
+            if frame is None:
+                if not waiting:
+                    self.status.emit("No video from camera, waiting (robot is sent STOP)...")
+                waiting = True
                 continue
+            if waiting:
+                self.status.emit(f"Running on camera {self.camera}")
+                waiting = False
             scale = self.width / frame.shape[1]
             frame = cv2.resize(frame, None, fx=scale, fy=scale)
-            closeness = depth(frame)
+            closeness = DepthWorker.estimator(frame)
             self.frame_ready.emit(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB), closeness)
-        cap.release()
+        cap.close()
 
     def stop(self):
         self.running = False
         self.wait(3000)
+
 
 def to_pixmap(rgb):
     h, w = rgb.shape[:2]
@@ -173,14 +237,15 @@ def to_pixmap(rgb):
 
 
 class TrainerWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, camera="0"):
         super().__init__()
         self.setWindowTitle("Depth Nav Trainer")
         self.X, self.y = self.load_dataset()
         self.model = joblib.load(MODEL_PATH) if MODEL_PATH.exists() else None
-        self.latest = None        # latest closeness map
-        self.selected = None      # label being recorded / predicted
+        self.latest = None
+        self.selected = None
         self.output = None
+        self.stopped = False
         self.smooth, self.current, self.debounce = None, None, Debouncer(HOLD_FRAMES)
         self.t_prev = time.time()
 
@@ -188,7 +253,17 @@ class TrainerWindow(QMainWindow):
         self.setCentralWidget(root)
         layout = QVBoxLayout(root)
 
-        # --- video views
+        source_row = QHBoxLayout()
+        source_row.addWidget(QLabel("Camera:"))
+        self.camera_edit = QLineEdit(camera, placeholderText="0  or  http://<cam-ip>:81/stream")
+        self.camera_edit.returnPressed.connect(self.connect_camera)
+        source_row.addWidget(self.camera_edit, 1)
+        connect_btn = QPushButton("Connect")
+        connect_btn.setFocusPolicy(Qt.NoFocus)
+        connect_btn.clicked.connect(self.connect_camera)
+        source_row.addWidget(connect_btn)
+        layout.addLayout(source_row)
+
         views = QHBoxLayout()
         self.cam_view = QLabel(alignment=Qt.AlignCenter)
         self.depth_view = QLabel(alignment=Qt.AlignCenter)
@@ -201,7 +276,6 @@ class TrainerWindow(QMainWindow):
             views.addLayout(col)
         layout.addLayout(views)
 
-        # --- the 10 navigation boxes + back
         grid = QGridLayout()
         self.boxes = []
         for i in range(N_BOXES + 1):
@@ -213,10 +287,9 @@ class TrainerWindow(QMainWindow):
             if i < N_BOXES:
                 grid.addWidget(b, 0, i)
             else:
-                grid.addWidget(b, 1, 3, 1, 4)  # BACK centered underneath
+                grid.addWidget(b, 1, 3, 1, 4)
         layout.addLayout(grid)
 
-        # --- controls
         controls = QHBoxLayout()
         self.train_radio = QRadioButton("Train")
         self.drive_radio = QRadioButton("Drive")
@@ -242,13 +315,33 @@ class TrainerWindow(QMainWindow):
         controls.addStretch()
         controls.addWidget(QLabel("Output:"))
         self.output_combo = QComboBox()
-        self.output_combo.addItems(["Print", "Keys (WASD)", "Serial"])
+        self.output_combo.addItems(["Print", "Keys (WASD)", "Serial", "UDP (Dirtlet)"])
         self.output_combo.setFocusPolicy(Qt.NoFocus)
+        self.output_combo.currentIndexChanged.connect(self.output_kind_changed)
         controls.addWidget(self.output_combo)
-        self.port_edit = QLineEdit(placeholderText="/dev/tty.usbserial-...")
-        self.port_edit.setFixedWidth(170)
-        controls.addWidget(self.port_edit)
+        self.target_edit = QLineEdit()
+        self.target_edit.setFixedWidth(170)
+        controls.addWidget(self.target_edit)
         layout.addLayout(controls)
+
+        safety = QHBoxLayout()
+        safety.addWidget(QLabel("Robot speed:"))
+        self.speed_slider = QSlider(Qt.Horizontal, minimum=0, maximum=300, value=150)
+        self.speed_slider.setFocusPolicy(Qt.NoFocus)
+        self.speed_slider.valueChanged.connect(self.speed_changed)
+        safety.addWidget(self.speed_slider, 1)
+        self.speed_label = QLabel()
+        self.speed_label.setFixedWidth(110)
+        safety.addWidget(self.speed_label)
+        self.stop_btn = QPushButton()
+        self.stop_btn.setFocusPolicy(Qt.NoFocus)
+        self.stop_btn.setMinimumSize(200, 44)
+        self.stop_btn.clicked.connect(self.toggle_stop)
+        safety.addWidget(self.stop_btn)
+        layout.addLayout(safety)
+        self.speed_changed(self.speed_slider.value())
+        self.output_kind_changed(0)
+        self.refresh_stop()
 
         self.status = QLabel()
         layout.addWidget(self.status)
@@ -262,12 +355,44 @@ class TrainerWindow(QMainWindow):
         self.refresh_boxes()
         self.set_status("Starting camera...")
 
-        self.worker = DepthWorker()
+        self.worker = None
+        self.connect_camera()
+
+
+    def connect_camera(self):
+        if self.worker:
+            self.worker.stop()
+        self.worker = DepthWorker(self.camera_edit.text().strip() or "0")
         self.worker.frame_ready.connect(self.on_frame)
         self.worker.status.connect(self.set_status)
         self.worker.start()
 
-    # ---------- data
+    def output_kind_changed(self, idx):
+        hints = {2: "/dev/tty.usbserial-...", 3: "motor board IP, e.g. 192.168.1.50"}
+        self.target_edit.setPlaceholderText(hints.get(idx, ""))
+        self.target_edit.setEnabled(idx in hints)
+
+    def speed_changed(self, value):
+        self.speed_label.setText(f"{value} / 1000")
+        if isinstance(self.output, UdpOutput):
+            self.output.speed = value
+
+    def toggle_stop(self):
+        self.stopped = not self.stopped
+        if self.output:
+            self.output.send(None)
+        self.refresh_stop()
+
+    def refresh_stop(self):
+        if self.stopped:
+            self.stop_btn.setText("STOPPED  (Esc to resume)")
+            self.stop_btn.setStyleSheet("QPushButton { background:#8a6d00; color:white; font-weight:bold;"
+                                        " font-size:15px; border-radius:8px; }")
+        else:
+            self.stop_btn.setText("STOP  (Esc)")
+            self.stop_btn.setStyleSheet("QPushButton { background:#c62828; color:white; font-weight:bold;"
+                                        " font-size:16px; border-radius:8px; }")
+
 
     def load_dataset(self):
         if DATASET_PATH.exists():
@@ -325,16 +450,15 @@ class TrainerWindow(QMainWindow):
         counts = np.bincount(y)
         if len(y) >= 30 and counts[counts > 0].min() >= 2:
             Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=0, stratify=y)
-            acc = make().fit(Xtr, ytr).score(Xte, yte)
+            acc = make().fit(*with_mirrored(Xtr, ytr)).score(Xte, yte)
             acc_text = f"  Held-out accuracy: {acc:.0%}"
 
-        self.model = make().fit(X, y)
+        self.model = make().fit(*with_mirrored(X, y))
         DATA_DIR.mkdir(exist_ok=True)
         joblib.dump(self.model, MODEL_PATH)
         self.save_dataset()
-        self.set_status(f"Model trained on {len(y)} samples.{acc_text}")
+        self.set_status(f"Model trained on {len(y)} samples + {len(y)} mirrored.{acc_text}")
 
-    # ---------- interaction
 
     def choose(self, label):
         self.selected = label
@@ -351,6 +475,8 @@ class TrainerWindow(QMainWindow):
             self.choose(BACK)
         elif e.key() == Qt.Key_Space:
             self.continuous.toggle()
+        elif e.key() == Qt.Key_Escape:
+            self.toggle_stop()
         else:
             super().keyPressEvent(e)
 
@@ -362,7 +488,9 @@ class TrainerWindow(QMainWindow):
                 if idx == 1:
                     self.output = KeyOutput()
                 elif idx == 2:
-                    self.output = SerialOutput(self.port_edit.text().strip())
+                    self.output = SerialOutput(self.target_edit.text().strip())
+                elif idx == 3:
+                    self.output = UdpOutput(self.target_edit.text().strip(), speed=self.speed_slider.value())
                 else:
                     self.output = PrintOutput()
             except Exception as ex:
@@ -379,10 +507,9 @@ class TrainerWindow(QMainWindow):
             self.selected = None
             self.set_status("Training mode")
         self.output_combo.setEnabled(not driving)
-        self.port_edit.setEnabled(not driving)
+        self.target_edit.setEnabled(not driving and self.output_combo.currentIndex() in (2, 3))
         self.refresh_boxes()
 
-    # ---------- frames
 
     def on_frame(self, rgb, closeness):
         self.latest = closeness
@@ -390,7 +517,6 @@ class TrainerWindow(QMainWindow):
 
         if self.drive_radio.isChecked():
             if self.model is not None:
-                # Average the model's confidence over recent frames instead of trusting one frame.
                 proba = np.zeros(N_BOXES + 1)
                 proba[self.model.classes_] = self.model.predict_proba(features(closeness)[None])[0]
                 self.smooth = proba if self.smooth is None else SMOOTHING * self.smooth + (1 - SMOOTHING) * proba
@@ -406,7 +532,7 @@ class TrainerWindow(QMainWindow):
             self.current = choice
             self.selected = self.debounce(choice)
             if self.output:
-                self.output.send(self.selected)
+                self.output.send(None if self.stopped else self.selected)
             self.refresh_boxes()
         elif self.continuous.isChecked() and self.selected is not None:
             self.record(self.selected)
@@ -421,7 +547,6 @@ class TrainerWindow(QMainWindow):
             self.depth_view.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
 
     def draw_depth(self, closeness, scores, fps):
-        # TURBO colormap: blue = far, green/yellow = middle, red = close
         vis = cv2.applyColorMap((closeness * 255).astype(np.uint8), cv2.COLORMAP_TURBO)
         vis = cv2.cvtColor(vis, cv2.COLOR_BGR2RGB)
         h, w = vis.shape[:2]
@@ -437,7 +562,6 @@ class TrainerWindow(QMainWindow):
         cv2.putText(vis, f"{fps:.1f} fps", (w - 90, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
         return vis
 
-    # ---------- display
 
     def refresh_boxes(self):
         counts = np.bincount(np.array(self.y, dtype=int), minlength=N_BOXES + 1) if self.y else [0] * (N_BOXES + 1)
@@ -455,16 +579,20 @@ class TrainerWindow(QMainWindow):
         self.status.setText(f"{text}    |    {len(self.y)} samples    |    {model}")
 
     def closeEvent(self, e):
-        self.worker.stop()
         if self.output:
             self.output.close()
+        if self.worker:
+            self.worker.stop()
         self.save_dataset()
         super().closeEvent(e)
 
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    win = TrainerWindow()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--camera", default="0", help="webcam index, or the ESP32-CAM URL http://<cam-ip>:81/stream")
+    args = ap.parse_args()
+    app = QApplication(sys.argv[:1])
+    win = TrainerWindow(args.camera)
     win.resize(1100, 680)
     win.show()
     sys.exit(app.exec())

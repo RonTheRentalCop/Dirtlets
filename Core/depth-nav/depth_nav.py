@@ -2,19 +2,8 @@
 # AI help was limited to small scripting mistakes and troubleshooting
 # while fixing shorted electronics. The code and design are my own.
 
-"""
-Depth-based navigation: webcam -> AI depth map -> steer toward the farthest open area.
-
-Usage:
-    python depth_nav.py                      # print commands only (safe test)
-    python depth_nav.py --output keys        # press W/A/S/D on your keyboard
-    python depth_nav.py --output serial --port /dev/tty.usbserial-XXXX   # send to a robot
-    python depth_nav.py --camera 1 --columns 7
-
-Press q in the preview window to quit.
-"""
-
 import argparse
+import threading
 import time
 
 import cv2
@@ -24,6 +13,58 @@ from PIL import Image
 from transformers import pipeline
 
 MODEL_ID = "depth-anything/Depth-Anything-V2-Small-hf"
+
+
+class FrameSource:
+
+    def __init__(self, source):
+        self.source = int(source) if str(source).isdigit() else str(source)
+        self.is_stream = isinstance(self.source, str)
+        self.frame, self.stamp = None, 0.0
+        self.lock = threading.Lock()
+        self.fresh = threading.Event()
+        self.cap = self._open()
+        self.ok = self.cap.isOpened()
+        self.running = self.ok
+        self.thread = threading.Thread(target=self._loop, daemon=True)
+        if self.ok:
+            self.thread.start()
+
+    def _open(self):
+        cap = cv2.VideoCapture(self.source)
+        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+        return cap
+
+    def _loop(self):
+        failures = 0
+        while self.running:
+            ok, frame = self.cap.read()
+            if ok:
+                failures = 0
+                with self.lock:
+                    self.frame, self.stamp = frame, time.time()
+                self.fresh.set()
+                continue
+            failures += 1
+            time.sleep(0.05)
+            if self.is_stream and failures >= 20:
+                self.cap.release()
+                self.cap = self._open()
+                failures = 0
+
+    def read(self, timeout=1.0):
+        if not self.fresh.wait(timeout):
+            return None
+        with self.lock:
+            self.fresh.clear()
+            return self.frame
+
+    def close(self):
+        self.running = False
+        if self.thread.is_alive():
+            self.thread.join(2)
+        self.cap.release()
+
 
 class DepthEstimator:
     def __init__(self, model_id=MODEL_ID):
@@ -37,24 +78,22 @@ class DepthEstimator:
         self.pipe = pipeline("depth-estimation", model=model_id, device=device)
 
     def __call__(self, frame_bgr):
-        """Returns a float map in [0, 1] where 1 = closest, 0 = farthest."""
         rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
         out = self.pipe(Image.fromarray(rgb))
-        # Depth Anything outputs relative inverse depth: bigger value = closer.
         d = out["predicted_depth"].squeeze().float().cpu().numpy()
         d = cv2.resize(d, (frame_bgr.shape[1], frame_bgr.shape[0]))
         lo, hi = np.percentile(d, 2), np.percentile(d, 98)
         return np.clip((d - lo) / (hi - lo + 1e-6), 0, 1)
 
+
 class Planner:
-    """Splits the depth map into vertical columns and picks the most open one."""
 
     def __init__(self, columns=5, block_threshold=0.75, smoothing=0.85, forward_bias=0.08,
                  switch_margin=0.08, hold_frames=4):
         self.columns = columns
         self.forward_bias = forward_bias
-        self.switch_margin = switch_margin  # another column must beat the current one by this much
-        self.block_threshold = block_threshold  # closeness above this = obstacle
+        self.switch_margin = switch_margin
+        self.block_threshold = block_threshold
         self.smoothing = smoothing
         self.scores = None
         self.current = columns // 2
@@ -62,12 +101,10 @@ class Planner:
 
     def plan(self, closeness):
         h, w = closeness.shape
-        # Ignore the top of the frame (ceiling/sky) and the very bottom (floor right at your feet).
         band = closeness[int(h * 0.25): int(h * 0.85)]
         cols = np.array_split(band, self.columns, axis=1)
-        # A column is only as open as its closest obstacle, so use a high percentile.
         nearest = np.array([np.percentile(c, 90) for c in cols])
-        scores = 1.0 - nearest  # higher = farther / more open
+        scores = 1.0 - nearest
 
         if self.scores is None:
             self.scores = scores
@@ -76,10 +113,8 @@ class Planner:
 
         best = int(np.argmax(self.scores))
         center = self.columns // 2
-        # Prefer going straight unless another column is clearly more open.
         if self.scores[center] >= self.scores[best] - self.forward_bias:
             best = center
-        # Hysteresis: stick with the current column unless the new one is clearly better.
         if self.scores[self.current] >= self.scores[best] - self.switch_margin:
             best = self.current
         self.current = best
@@ -95,7 +130,6 @@ class Planner:
 
 
 class Debouncer:
-    """Only switches to a new value after it has been seen `hold` frames in a row."""
 
     def __init__(self, hold=4):
         self.hold = hold
@@ -114,6 +148,7 @@ class Debouncer:
             self.candidate, self.count = value, 1
         return self.value
 
+
 class PrintOutput:
     def __init__(self):
         self.last = None
@@ -128,7 +163,6 @@ class PrintOutput:
 
 
 class KeyOutput:
-    """Holds down the key for the current command (W/A/S/D)."""
     KEYS = {"forward": "w", "left": "a", "right": "d", "back": "s"}
 
     def __init__(self):
@@ -152,7 +186,6 @@ class KeyOutput:
 
 
 class SerialOutput:
-    """Sends one byte per command change: F, L, R, B. Easy to parse on an Arduino/ESP32."""
     CODES = {"forward": b"F", "left": b"L", "right": b"R", "back": b"B", "stop": b"S"}
 
     def __init__(self, port, baud):
@@ -168,6 +201,7 @@ class SerialOutput:
     def close(self):
         self.ser.write(self.CODES["stop"])
         self.ser.close()
+
 
 def draw_overlay(closeness, command, best, scores):
     vis = cv2.applyColorMap((closeness * 255).astype(np.uint8), cv2.COLORMAP_INFERNO)
@@ -185,7 +219,7 @@ def draw_overlay(closeness, command, best, scores):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--camera", type=int, default=0)
+    ap.add_argument("--camera", default="0", help="webcam index, or a stream URL like http://<cam-ip>:81/stream")
     ap.add_argument("--columns", type=int, default=5, help="odd number works best")
     ap.add_argument("--block-threshold", type=float, default=0.75)
     ap.add_argument("--output", choices=["print", "keys", "serial"], default="print")
@@ -207,16 +241,18 @@ def main():
 
     depth = DepthEstimator()
     planner = Planner(args.columns, args.block_threshold)
-    cap = cv2.VideoCapture(args.camera)
-    if not cap.isOpened():
-        raise SystemExit(f"Could not open camera {args.camera} (check macOS camera permission for your terminal)")
+    cap = FrameSource(args.camera)
+    if not cap.ok:
+        raise SystemExit(f"Could not open camera {args.camera} (check macOS camera permission for your "
+                         f"terminal, or that the ESP32-CAM is on the same Wi-Fi)")
 
     try:
         t_prev = time.time()
         while True:
-            ok, frame = cap.read()
-            if not ok:
-                break
+            frame = cap.read()
+            if frame is None:
+                print("No frames from camera...")
+                continue
             scale = args.width / frame.shape[1]
             frame = cv2.resize(frame, None, fx=scale, fy=scale)
 
@@ -236,7 +272,7 @@ def main():
                 break
     finally:
         out.close()
-        cap.release()
+        cap.close()
         cv2.destroyAllWindows()
 
 

@@ -33,15 +33,21 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 Run it from a terminal that has camera permission (System Settings → Privacy & Security → Camera).
 
+**Camera:** the box at the top takes a webcam number (`0`) or the robot's ESP32-CAM stream (`http://<cam-ip>:81/stream`). You can also pass it at startup with `--camera`. Video is read on a background thread that keeps only the newest frame, so a slow model never falls behind, and the stream reconnects by itself if Wi-Fi drops. Setting up the camera board is covered in [firmware/micropython/camera_stream](../../firmware/micropython/camera_stream/README.md).
+
 - **Train mode:** point the camera around and click the box you'd steer toward. You can also press `1`–`9` and `0` (box 10), or `B` for back. Each press saves one labeled example. `Space` turns on continuous recording, which keeps saving every frame under the last box you picked.
-- **Train model:** fits the classifier and reports held-out accuracy.
-- **Drive mode:** the model picks the box. The output can be Print, Keys, or Serial.
+- **Train model:** fits the classifier and reports held-out accuracy. Every example is also flipped left-to-right and added to the training data (box 3 ↔ box 8, BACK stays BACK), which doubles it at no cost.
+- **Drive mode:** the model picks the box. The output can be Print, Keys, Serial, or UDP.
+- **STOP** (red button or `Esc`) sends stop until you press it again. **Robot speed** caps the drive power.
 
 | Output | What it sends |
 |---|---|
 | Print | box name to the console when it changes |
 | Keys (WASD) | boxes 1–2 → `A`, 3–4 → `W+A`, 5–6 → `W`, 7–8 → `W+D`, 9–10 → `D`, BACK → `S` |
 | Serial | one byte on change: `0`–`9` for boxes 1–10, `B` for back, `S` for stop |
+| UDP (Dirtlet) | `DRIVE <drive> <steer>` to the motor board on port 3333 (same format as `joystick_server.py`), 10 times a second |
+
+**UDP mapping:** steering goes linearly from −300 (box 1) to +300 (box 10). Drive power is the speed slider, reduced by up to 40% in sharp turns. BACK reverses straight. If no new decision arrives for 0.3 s (camera froze, model stalled, Wi-Fi dropped), it sends `STOP` instead of repeating the last command. Closing the window also sends `STOP`.
 
 ## Dataset
 
@@ -78,13 +84,23 @@ What the errors show:
 
 - Most mistakes are **neighboring boxes**, for example 3 vs 4 or 7 vs 8. That's mild for driving, since it means steering slightly more or less.
 - **Box 6 is weak** (1 of 3 correct) because it has only 13 examples. Box 2 is also under-recorded.
-- **These numbers are likely optimistic.** Continuous recording saves many nearly identical frames in a row, and a random split puts some of them in both training and test sets. A fairer test is to record a separate session in a different room and score the model on that.
+- **These numbers are optimistic.** Continuous recording saves many nearly identical frames in a row, and a random split puts some of them in both training and test sets.
+
+**A fairer test** trains on the first 80% of examples in recording order and tests on the last 20%, which the model has never seen anything close to:
+
+| | Exact box | Within one box |
+|---|---|---|
+| Without mirroring | 36% | 85% |
+| With mirroring | **41%** | 84% |
+
+So on new footage it usually steers in about the right direction but often misses the exact box. Mirroring helps on new footage. It scores slightly lower on the random split (82% vs 85%), which mostly measures memorizing near-duplicates. More varied recording, especially in different rooms, is what will raise these numbers.
 
 ## Limitations and next steps
 
 - Relative depth only. It can't say "stop at 30 cm", so keep a bump sensor or ultrasonic sensor as a safety stop.
 - The training data is indoor only. Outdoor or lunar-style terrain will need its own examples.
-- **Next:** a UDP output so the trainer drives a Dirtlet over Wi-Fi like `joystick_server.py`; a test session recorded separately for honest accuracy; more examples for boxes 2 and 6.
+- The current data was recorded with a laptop camera at desk height. Re-record from the ESP32-CAM mounted on the car, which sees mostly floor.
+- **Next:** first drive test over UDP at low speed; record data from the robot's own camera in varied rooms; more examples for boxes 2 and 6.
 
 ## Files
 

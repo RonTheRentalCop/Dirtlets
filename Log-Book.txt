@@ -137,3 +137,9 @@ Monocular Depth Estimation with Depth Anything V2
 How do neural networks learn to estimate depth from 2D images?
 https://towardsdatascience.com/monocular-depth-estimation-with-depth-anything-v2-54b6775abc9f/
 
+https://www.youtube.com/watch?v=7EKiLIjfbi8
+Great YT video about tracked systems and it is very imformitive
+
+Better suited for my project
+https://www.youtube.com/watch?v=0oohyrdZCt8
+Seems very solid and might need to take some insperation for my project

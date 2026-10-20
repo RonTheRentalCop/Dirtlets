@@ -12,3 +12,4 @@ __pycache__/
 # Local credentials
 .env
 **/secrets.h
+**/wifi_secrets.py

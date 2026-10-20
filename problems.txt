@@ -128,3 +128,5 @@ Update I got the parts in and I have to restart progress on the rover. The cost 
 The new motor controller seems to be doing well and is much stronger than its last counterpart.
 
 Added new photo and video updates to the github. I still need to intigrate them into the read me and the setup/construction mds 
+
+The last few weeks behind oct 9th I participated in a CAD online course (It was a yt video) and have been developing the tracked system. Its printing as we speak!
