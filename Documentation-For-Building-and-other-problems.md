@@ -141,6 +141,22 @@ With the introduction of the RGB Camera as an addon I have been utilizing YOLO a
 
 The original tracked design remains the long-term direction for the planetary rover concept, so the existing tread references and plans are being kept. For the first working prototype, however, the design may pivot to a larger wheeled chassis. The tracked approach has been difficult because the correct tread materials are not available, and the first chassis was too small to adapt for larger treads that would improve traversal over uneven land. A larger wheeled chassis should also make telemetry easier to integrate and provide enough room for safe separation of power and signal wiring, electronics mounting, waterproofing, and weatherproofing. This revision is intended to make the first prototype testable without abandoning the future tracked design.
 
+## First Custom Rover CAD Version
+
+I decided not to use the existing rover design I had listed earlier because I wanted a custom design. I created this first rover CAD version myself, 100% by me. These images document the CAD concept, not a completed physical build.
+
+### Angled view
+![First custom rover CAD version, angled view](Photos/Screenshot%202026-10-22%20at%209.32.41%E2%80%AFAM.png)
+
+### Underside view
+![First custom rover CAD version, underside view](Photos/Screenshot%202026-10-22%20at%209.32.46%E2%80%AFAM.png)
+
+### Front view
+![First custom rover CAD version, front view](Photos/Screenshot%202026-10-22%20at%209.32.53%E2%80%AFAM.png)
+
+### Angled view with front panel
+![First custom rover CAD version, angled view with front panel](Photos/Screenshot%202026-10-22%20at%209.33.02%E2%80%AFAM.png)
+
 ## Why This New Build Block Exists
 
 I am adding this block because the build plan needs to match what I can actually make with the materials and chassis I have. The tracked design is still part of the project, but the first rover may switch to a larger wheeled Mars-rover-style design. The old chassis was too small for larger treads, I did not have the right tread materials, and the tread system was becoming harder to adapt for easier land traversal. A bigger wheeled chassis gives me more space for the electronics, telemetry equipment, separate power and signal wiring, waterproofing, and weatherproofing.

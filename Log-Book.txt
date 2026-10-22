@@ -1,5 +1,9 @@
 Project Progress and Timeline for Success
 
+- Thursday October 22
+  - Added screenshots of the first rover CAD version to the project documentation.
+  - Chose to create a custom rover design myself instead of using the existing design I had listed earlier.
+
 - To Do - 
 [x] Created Github Repository
 [x] Log Book Made

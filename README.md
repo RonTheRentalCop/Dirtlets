@@ -25,6 +25,22 @@ Dirtlets are little robots designed to autonomously navigate, map, and record en
 
 # Progress Photos
 
+## First Rover CAD Version
+
+These screenshots show the first CAD version of my rover. I designed this custom version myself (100% my work) instead of using the existing design I had listed earlier because I wanted to make something custom.
+
+### Angled view
+![First custom rover CAD version, angled view](Photos/Screenshot%202026-10-22%20at%209.32.41%E2%80%AFAM.png)
+
+### Underside view
+![First custom rover CAD version, underside view](Photos/Screenshot%202026-10-22%20at%209.32.46%E2%80%AFAM.png)
+
+### Front view
+![First custom rover CAD version, front view](Photos/Screenshot%202026-10-22%20at%209.32.53%E2%80%AFAM.png)
+
+### Angled view with front panel
+![First custom rover CAD version, angled view with front panel](Photos/Screenshot%202026-10-22%20at%209.33.02%E2%80%AFAM.png)
+
 ### Tuesday September 22
 - Stripped out all old RC internals
 - Replaced with another cars motor controller. 
