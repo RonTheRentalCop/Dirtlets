@@ -17,11 +17,29 @@ Dirtlets are little robots designed to autonomously navigate, map, and record en
 
 - [MicroPython Firmware](firmware/micropython/motor_controller/README.md): how to upload the active motor-controller files, send UDP commands, and run the light test.
 
+- [Depth Nav](Core/depth-nav/README.md): camera-only obstacle avoidance using an AI depth model, a trainer GUI, and the recorded training dataset.
+
 - [Log Book](Log-Book.txt): dated project progress and decisions. More professional logging of information and direction than my problems file. 
 
 - [Photos](Photos): All photos used in various documentation surrounding the project
 
 # Progress Photos
+
+## First Rover CAD Version
+
+These screenshots show the first CAD version of my rover. I designed this custom version myself (100% my work) instead of using the existing design I had listed earlier because I wanted to make something custom.
+
+### Angled view
+![First custom rover CAD version, angled view](Photos/Screenshot%202026-10-22%20at%209.32.41%E2%80%AFAM.png)
+
+### Underside view
+![First custom rover CAD version, underside view](Photos/Screenshot%202026-10-22%20at%209.32.46%E2%80%AFAM.png)
+
+### Front view
+![First custom rover CAD version, front view](Photos/Screenshot%202026-10-22%20at%209.32.53%E2%80%AFAM.png)
+
+### Angled view with front panel
+![First custom rover CAD version, angled view with front panel](Photos/Screenshot%202026-10-22%20at%209.33.02%E2%80%AFAM.png)
 
 ### Tuesday September 22
 - Stripped out all old RC internals

@@ -5,7 +5,8 @@ This is the active firmware path for the ESP32-WROOM-32E. It uploads Python file
 ## Files
 
 - `main.py`: starts Wi-Fi, motors, lights, UDP, and the safety loop
-- `config.py`: edit Wi-Fi, pins, timeout, and LED settings
+- `config.py`: edit pins, timeout, and LED settings
+- `wifi_secrets.py`: your Wi-Fi name and password (not committed; copy `wifi_secrets.example.py` to make it)
 - `motor.py`: TB6612FNG PWM and direction control
 - `udp_control.py`: UDP commands and automatic timeout stop
 - `lights.py`: status-light control
@@ -47,6 +48,7 @@ Edit `config.py`, then upload all files. Replace the port with the one for your 
 
 ```sh
 mpremote connect /dev/cu.usbserial-XXXX fs cp config.py :config.py
+mpremote connect /dev/cu.usbserial-XXXX fs cp wifi_secrets.py :wifi_secrets.py
 mpremote connect /dev/cu.usbserial-XXXX fs cp lights.py :lights.py
 mpremote connect /dev/cu.usbserial-XXXX fs cp motor.py :motor.py
 mpremote connect /dev/cu.usbserial-XXXX fs cp udp_control.py :udp_control.py
@@ -56,7 +58,7 @@ mpremote connect /dev/cu.usbserial-XXXX reset
 
 MicroPython automatically runs `main.py` after boot. This code does not flash firmware and does not erase the board.
 
-If Wi-Fi still says `CHANGE_ME`, the board creates an open temporary access point named `Dirtlets-Motor` at `192.168.4.1`. Connect the Mac to that network for the first bench test. For normal use, set `WIFI_SSID` and `WIFI_PASSWORD` in `config.py` and upload that file again.
+If `wifi_secrets.py` is missing or still says `CHANGE_ME`, the board creates an open temporary access point named `Dirtlets-Motor` at `192.168.4.1`. Connect the Mac to that network for the first bench test. For normal use, copy `wifi_secrets.example.py` to `wifi_secrets.py`, set `WIFI_SSID` and `WIFI_PASSWORD`, and upload it again.
 
 ## Commands
 
