@@ -137,12 +137,25 @@ With the introduction of the RGB Camera as an addon I have been utilizing YOLO a
 
 11. **Run the first mapping trial and document results.** Start with a small, known area and log camera frames, lidar data, IMU data, commands, battery voltage, and communication status. Compare the generated map with the real layout, note missed obstacles and false detections, and record failures such as drift, packet loss, overheating, or motor stalls. Make one change at a time, retest, and keep the wiring diagram, pin map, firmware version, calibration values, and build notes with the prototype.
 
-Credit to OpenAI (2026) For test Image generation on possible paint styles and previews
-Credit to Anthropic (2026) For Re-Coloring Flowchart #1 into Martian Colors
-
 ## Prototype Design Revision
 
 The original tracked design remains the long-term direction for the planetary rover concept, so the existing tread references and plans are being kept. For the first working prototype, however, the design may pivot to a larger wheeled chassis. The tracked approach has been difficult because the correct tread materials are not available, and the first chassis was too small to adapt for larger treads that would improve traversal over uneven land. A larger wheeled chassis should also make telemetry easier to integrate and provide enough room for safe separation of power and signal wiring, electronics mounting, waterproofing, and weatherproofing. This revision is intended to make the first prototype testable without abandoning the future tracked design.
+
+## First Custom Rover CAD Version
+
+I decided not to use the existing rover design I had listed earlier because I wanted a custom design. I created this first rover CAD version myself, 100% by me. These images document the CAD concept, not a completed physical build.
+
+### Angled view
+![First custom rover CAD version, angled view](Photos/Screenshot%202026-10-22%20at%209.32.41%E2%80%AFAM.png)
+
+### Underside view
+![First custom rover CAD version, underside view](Photos/Screenshot%202026-10-22%20at%209.32.46%E2%80%AFAM.png)
+
+### Front view
+![First custom rover CAD version, front view](Photos/Screenshot%202026-10-22%20at%209.32.53%E2%80%AFAM.png)
+
+### Angled view with front panel
+![First custom rover CAD version, angled view with front panel](Photos/Screenshot%202026-10-22%20at%209.33.02%E2%80%AFAM.png)
 
 ## Why This New Build Block Exists
 

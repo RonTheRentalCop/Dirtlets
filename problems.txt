@@ -121,6 +121,7 @@ https://a.co/d/0jayhnrd
 
 
 
+
 How will I stop the robot from tumbling down stairs and drops when lidar and esp cam. Will they cut it?
 How will the Treads Impact the design vs wheeled?
 
@@ -128,3 +129,12 @@ Update I got the parts in and I have to restart progress on the rover. The cost 
 The new motor controller seems to be doing well and is much stronger than its last counterpart.
 
 Added new photo and video updates to the github. I still need to intigrate them into the read me and the setup/construction mds 
+
+The last few weeks behind oct 9th I participated in a CAD online course (It was a yt video) and have been developing the tracked system. Its printing as we speak!
+
+Great Video On Heat Injection for the screw holders.
+https://youtube.com/shorts/Wu6IhokEVRA?si=jkql-ntD_Tvb9CZ4
+
+Why did I not think of doing suspension like this??
+https://www.youtube.com/watch?v=njKQLRMl8qk
+
