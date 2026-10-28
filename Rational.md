@@ -109,3 +109,80 @@ SKiD-SLAM: Resource-aware distributed multi-robot LiDAR SLAM for planetary missi
 ## YouTube Videos
 
 DIY Autonomous ESP32 Robot (GPS, Obstacle Avoidance). [https://www.youtube.com/watch?v=neAgJPl7brA](https://www.youtube.com/watch?v=neAgJPl7brA)
+
+
+## Procedure and Materials
+
+Project outline: I want to build a robust system of SWARM rovers in order to successfully autonomously navigate, traverse, and map unfammiler and unwelcoming environments.
+
+Scope: I am going to build a system that is native to gravitational environments (The parts are not suited or rated for zero gravity) as hardware is extremely expensive and requires ample protections. 
+
+Goal: Dirtlets will be capable of mapping, navigating, and coordinating with eachother autonomously. The mapping goal entails the rovers being able to map > 50% of douglas park by themselves, map lava tunnels, and other famous Oregon geological or ecological features.
+
+Engineering Goals: Dirtlets will be able to coordinate team tasks (Getting Rovers Unstuck) and getting them to traverse all terrain and conditions. (Snow, Ice, Asphalt, Mud, Dirt, Gravel, ECT), Leader selection (If a rover gets stuck or battery dies a new leader must be selected to cordinate and lead the mission.) Weather Proofing and robust electronics protections. An Effective Tracked System that includes suspension to reduce stress on the system, and capable to traverse all situations (Not water).
+
+Watch Videos of people creating devices ex rovers and other electronics projects to better understand the interworkings of the electronics necessary.
+
+Understand the core components of what make up these small smart devices
+
+The Rover needs a brain, Raspberry pies are far too expensive as much as I would like them but there is a solution. ESP-32 by Espressive systems makes a wide range of electronics capable of WIFI, Bluetooth, and other data transmitting systems while also being efficient and effective with power usage. The limitations of these devices are they are much less capable computing wise due to the chip and memory being limited.
+
+The Rover needs a body. I will CAD and design a tracked system in ONSHAPE, Fusion360, and Roblox Studio, to make an effective mostly 3d printable system. This design will most likely be 250-300mm long by 100-150 wide. RATIOS AND DESIGN ARE WORK IN PROGRESS AND NOT FINAL.
+
+Draw diagrams and conceptual designs for the rover
+
+
+
+(First Electronics test) Used an old RC car base as a platform for software development as not all parts arrived at the time. 
+
+
+Review electronics/hardware, and build the rover into a prompt via parts listing text based code firmware.
+
+Choice #1 
+Feed that prompt to an LLM to determine possible challenges that you may have not thought of that you may encounter.
+
+Choice #2 
+As an experienced online community or ask a teacher or mentor like Mr. Smith and take notes on what he thinks and things that may need to be changed.
+
+Revise, Repeat until you have consistently get a consensus that the hardware is solid and capable for the design. 
+
+Order The parts and Other Resources like wires, solder, soldering iron ect
+Receive and test each object to ensure all parts are in working order
+Educate yourself on electrical safety in preparation for construction
+Draw wiring diagrams and look online for resources relating to your microcontroller and the ports it has
+Learn what goes to what and construct a test machine
+
+Decide what language you would like to program the microcontroller boards in, I chose MicroPython as I do not know C++. 
+
+Read/watch material on how micropython actually can interact with hardware components. I first learned about network streaming and then motor control as parts started to arrive. 
+
+Create your first program to test out if your electronics arrived alive (Important step)
+This entails making the motor spin forwards and backwards, if you start with a wheeled system when learning to test out moving the front wheels via its servo.
+After completion, program a website host of a separate central computer that will communicate and direct the rover commands for the motors and make it controller like.
+
+Drive around your rover test rover to make sure everything is working and drive it hard to test voltage spikes and how your wiring system will handle it. (Super Important)
+
+During this testing phase I found that during quick motor direction changes voltage would spike and that caused issues in my initial design due to the motor controller only supporting a certain amount of voltage that is normal at baseline but when it surged during those spikes it would kill it. 
+
+
+After you are confident in your software and hardware systems, start work on preperation for swapping to a tracked system. I personally am redesigning the system I initially designed due to needs/wants with the project and as my old design was going to have issues driving in many environments. 
+
+Proceeding past that 3d print and fully construct your rover body. Test out track drive systems without Motors installed. This is the time to commit to a design so if you don’t like it now is the time to change it. (Speaking of the main body addons, track/wheel replacements are completely fine).
+
+Install your old hardware system from the test rover on to the main machine, or you can replace parts with new/different parts but document the change and why. In my case I had to switch to a much heavier motor controller due to the spikes in voltage needed to be less than what the driver can withstand so I can have a safer operating system. 
+
+Start training for the ML algorithm for the rovers autonomous driving and obstacle avoidance. For this project I am streaming all the data back to a central computer in which the central computer will take in all the perspectives layer an AI depth estimation system over the camera in which the ML algo will determine the path to take and based on that decision will send directions to the rover hopefully achieving a smooth driving system. 
+
+Start to CAD a holder and design part for the SLAM Mapping system on the rover. For this we will need to protect the LIDAR and Smart servo via securing it is a way that allows for free range of motion and uninterrupted mapping. This criteria will most likely lead us to situating this design on top of the rover. 
+
+Start testing on the lidar system first stationary to get calculations down and the software UI side for the lidar situated. Then we need to progress to rover testing via situating the design into the rovers system and integrating altimeter data ect speed direction and angle to add into the calculating for the 3d mapping. 
+
+After all devices undergo testing separately add them all in and test the full system at once and record notes on any issues navigating, moving, mapping, or communicating. Go back to the board and brainstorm/research fixes for the lack of whatever you see. It will most likely be a software issue but hardware problems can emerge. 
+
+After you are comfortable with the design, start to test in different environments and map in different areas. Fine tune any issues to try to resolve them easily and efficiently. Ask for advice from engineers or professionals about what could possibly be improved. At this point the design should be pretty late stage and working. 
+
+ Make sure your design is to the tea of what you want. Make sure all systems work and the rover is functioning properly. If they are not, go back a step or two and retry the design. If you are happy with the product then go all the way back to step 4 when you order the parts and replicate the same drone and there will be bugs to fix along the way but as you have much more experience at this point the production should go faster. 
+
+After all of this make sure communication is seamless between the rovers and then make as many as you would like and start mapping and recording data! The swarm is the hardest part about the whole process with swarms effectively being an extremely difficult concept due to these hardware and software knowledge limitations. But after they start working take them everywhere navigating and mapping everything!
+
+At this point you are pretty much done but it is still possible for you to upgrade these. Turning these systems into heterogeneous systems is a far reaching goal. It would allow for possible soil sampling drones, HDC (high Definition Cameras) and even alien warning systems. But in all seriousness it is extremely important your drones are as robust and independent as possible at this point as it is reaching the point where effective autonomous navigation is one of if not the most important thing you can do. 
