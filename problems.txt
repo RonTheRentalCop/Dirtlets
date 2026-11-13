@@ -65,6 +65,14 @@ Things to Print:
 Total:
     $279.98
 
+Things that I missed.
+
+I bought metal ball bearings as I had forgotten to buy them for a total of 8.99
+I bought 2 pc of 35kg JGB37-3530 12/24v DC gear motors for $22 a piece 
+https://a.co/d/017AumkI
+
+
+
 
 
     Esp32 Vision records and streams video and data back to main computer
