@@ -20,16 +20,3 @@ Dirtlets are little robots designed to autonomously navigate, map, and record en
 - [Log Book](Log-Book.txt): dated project progress and decisions. More professional logging of information and direction than my problems file. 
 
 - [Photos](Photos): All photos used in various documentation surrounding the project
-
-# Progress Photos
-
-### Tuesday September 22
-- Stripped out all old RC internals
-- Replaced with another cars motor controller. 
-- Replaced old motor with a new one that actually works
-
-![Progress 1](Photos/13227DE9-6DE7-4646-805C-E1B59F4F00E7_1_102_o.jpeg)
-
-#
-
-<img src="Photos/13227DE9-6DE7-4646-805C-E1B59F4F00E7_1_102_o.jpeg" alt="Progress 1" width="0" height='0'>
