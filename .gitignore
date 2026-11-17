@@ -12,3 +12,9 @@ __pycache__/
 # Local credentials
 .env
 **/secrets.h
+
+# Rover CAD: only the renders and STL parts are shared; keep the source, notes and AI prompt local
+rover_chassis/cad_prompt.md
+rover_chassis/README.md
+rover_chassis/*.scad
+lidar_tilt_mount/*.scad
