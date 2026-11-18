@@ -161,3 +161,64 @@ Changes made to the build plan:
 ## 3D Printer Problem That Affected the Tread Design
 
 The printer also became a major problem in the build. It was a free printer I found on Facebook Marketplace and repaired myself. At first, the gears, tracks, and axles looked like they were printing fine, but later the parts started coming out jumbled instead of usable. I spent about three to four weeks trying to fix it, but there was very little improvement. This is another reason I am considering the larger wheeled prototype. I cannot plan the first working rover around tread parts that my printer cannot reliably produce. The tracked design is still being kept, but the wheeled version lets me continue testing the electronics, telemetry, camera, and autonomous systems while the printer problem is still being worked out.
+
+## 3D-Printable Tank Chassis (v3)
+
+This is the tracked design reworked to fit a Creality K2 (260 × 260 × 260 mm build volume). Every printed part is 250 mm or smaller. The tracks print in plain PLA as rigid links joined by 1.75 mm filament pins, so no flexible filament is needed. Each side has three independently sprung road wheels. A JGB37-3530 12 V 600 RPM gear motor drives the rear sprocket on each side. The RPLIDAR C1 sits on an STS3215 tilt servo, the ESP32-CAM looks out of the front nose, and a TF-Luna 1D lidar watches the floor ahead for stairs.
+
+Overall size is about 288 mm long, 284 mm wide and 196 mm tall to the top of the lidar, with 24 mm of ground clearance. The tracks reach past the body at both ends, and everything on the body below 60 mm sits inside the track outline, so a step meets the tracks before the body.
+
+![Front three-quarter view](rover_chassis/renders/front_three_quarter.png)
+
+![Side profile: the tracks lead the body at both ends](rover_chassis/renders/side_climb_profile.png)
+
+![Rear three-quarter view](rover_chassis/renders/rear_three_quarter.png)
+
+### Running gear and suspension
+
+Three road wheels per side, each on a swing arm with an OD 10 × 25 mm compression spring. Wheel travel is 9 mm up and 5 mm down, with stops at both ends. The track is 32 mm wide, with 15 mm links and 4 mm grousers, 41 links per side. A ridge round each wheel runs in a groove on the inside of the links to keep the track on.
+
+![Running gear with the fenders off](rover_chassis/renders/running_gear_no_fender.png)
+
+![Suspension at rest (right) and at full bump (left)](rover_chassis/renders/suspension_rest_vs_bump.png)
+
+![Track links wrapped on the sprocket](rover_chassis/renders/track_on_sprocket.png)
+
+### Electronics bay and sensors
+
+Two ESP32 boards, the motor driver, the 5 V UBEC and the 6-axis IMU sit on the hull floor. The IMU is in the middle of the body, not on the lidar or servo. The ESP32-CAM sits in the front nose behind a vision port sized to its field of view. The stair sensor points 25° down and hits the floor about 19 cm ahead of the tracks.
+
+![Electronics bay with the deck removed](rover_chassis/renders/inside_bay.png)
+
+![Front sensors: camera window and stair-sensor beam](rover_chassis/renders/front_sensors_side.png)
+
+![Lidar tilted forward on the servo](rover_chassis/renders/lidar_tilt_front.png)
+
+![Exploded view](rover_chassis/renders/exploded.png)
+
+### Printed parts
+
+All STL files are in [rover_chassis/stl](rover_chassis/stl), already in print orientation.
+
+| Part | Qty | Notes |
+|---|---|---|
+| `hull` | 1 | Floor down, 244 × 207 × 67 mm |
+| `front_nose` | 1 | Front face down so it needs no supports. Carries the idlers, the tensioners and the ESP32-CAM |
+| `upper_hull` | 1 | Deck down |
+| `fender_left`, `fender_right` | 1 + 1 | Top down |
+| `track_test_strip` | 1 | Print this first to check the hinge fit and pin size |
+| `track_link` | 82 | PLA, inner face down |
+| `road_wheel`, `idler` | 6, 2 | |
+| `sprocket_half` | 4 | Two per sprocket, bolted back to back. PETG preferred |
+| `arm_left`, `arm_right` | 3 + 3 | PETG preferred |
+| `bracket_left`, `bracket_right` | 3 + 3 | Spring brackets |
+| `slider`, spacers | 2, 14 | Idler tensioners and M4 spacers |
+| `servo_tower`, `tower_cap`, `lidar_cradle` | 1 each | Lidar tilt mount on a turret ring |
+| `cliff_bracket`, `cliff_cap` | 1 each | Stair-sensor mount |
+| `cam_plug` | 1 | Closes the camera slot in the nose |
+
+![A single track link](rover_chassis/renders/track_link.png)
+
+![Hinge test strip: 4 links with three pin-hole sizes](rover_chassis/renders/track_test_strip.png)
+
+![Largest part inside the K2's build volume](rover_chassis/renders/build_volume_check.png)

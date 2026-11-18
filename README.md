@@ -13,6 +13,8 @@ Dirtlets are little robots designed to autonomously navigate, map, and record en
 
 - [Build Documentation](Documentation-For-Building-and-other-problems.md): assembly, wiring, safety, testing, and design revisions. But to be honest, it lacks much of the building as of now.
 
+- [3D-Printable Tank Chassis](Documentation-For-Building-and-other-problems.md#3d-printable-tank-chassis-v3): photos of the tracked rover design, with the printable STL parts in [rover_chassis/stl](rover_chassis/stl).
+
 - [ESP32 Setup](ESP32_Setup.md): ESP32 development and hardware setup notes. Helps with setting up data transmission and just tinkering with your stuff.
 
 - [MicroPython Firmware](firmware/micropython/motor_controller/README.md): how to upload the active motor-controller files, send UDP commands, and run the light test.
