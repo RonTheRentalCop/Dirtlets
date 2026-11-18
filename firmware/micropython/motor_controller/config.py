@@ -2,8 +2,6 @@
 # AI help was limited to small scripting mistakes and troubleshooting
 # while fixing shorted electronics. The code and design are my own.
 
-WIFI_SSID = "CHANGE_ME"
-WIFI_PASSWORD = "CHANGE_ME"
 SETUP_AP_SSID = "Dirtlets-Motor"
 
 UDP_PORT = 3333

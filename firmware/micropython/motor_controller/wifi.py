@@ -8,11 +8,16 @@ import network
 
 import config
 
+try:
+    import wifi_secrets
+except ImportError:
+    wifi_secrets = None
+
 
 def connect_wifi():
     station = network.WLAN(network.STA_IF)
     station.active(True)
-    if config.WIFI_SSID == "CHANGE_ME":
+    if wifi_secrets is None or wifi_secrets.WIFI_SSID == "CHANGE_ME":
         station.active(False)
         access_point = network.WLAN(network.AP_IF)
         access_point.active(True)
@@ -24,7 +29,7 @@ def connect_wifi():
 
     if not station.isconnected():
         print("Connecting to Wi-Fi...")
-        station.connect(config.WIFI_SSID, config.WIFI_PASSWORD)
+        station.connect(wifi_secrets.WIFI_SSID, wifi_secrets.WIFI_PASSWORD)
         while not station.isconnected():
             time.sleep_ms(250)
     print("Wi-Fi:", station.ifconfig())

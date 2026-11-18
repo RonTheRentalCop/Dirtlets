@@ -1,0 +1,9 @@
+torch
+transformers
+opencv-python
+pillow
+numpy
+pynput
+pyserial
+scikit-learn
+PySide6

@@ -1,0 +1,23 @@
+Ever wonder how hard it is to build a self driving rover?
+
+I have
+
+Today I will be going over the stratigies I used to create this rover and why I did it this way.
+
+Lets break it down by the parts
+Explain here why I chose some parts over others
+why I went with the treaded system over others. 
+What were the challenges I now face because of my decision on parts
+
+Why did I decied to use ML instead of a stupid easy hardcoded method like this?
+
+https://youtu.be/1n_KjpMfVT0?si=qHkUJY5EUM7XKmry
+
+I decided that I did not want my robot to be dump as rocks but instead be smart
+The gain over the ML method I used was, I was able to run a AI over all camera input from the esp 32 cam via transmitting the data back to the main computer.
+The main computer then takes the transmitted data and runs the AI depth image anylisis over it to then have the ML algorithum that I trained to determine what direction the robot should travel in relative to the furthist away point.
+
+What are the Issues with this?
+
+When vibrating or moving too fast it can make the AI misread the depth and give weird information
+What could I do to fix this? Stabilize it, Train it more to wait or move slower, or I could buy an expensive depth camerea
